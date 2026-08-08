@@ -65,7 +65,7 @@ export default function NavigationBar() {
             ))}
           </div>
 
-          {/* Right Action Area (CV Button + Mobile Hamburger Toggle) */}
+          {/* Right Action Area (CV Button + Mobile Quick Jump Toggle) */}
           <div className="flex items-center gap-3 shrink-0">
             <a
               href="/cv/NusratJahanBably_CV.pdf"
@@ -76,24 +76,23 @@ export default function NavigationBar() {
               <span>Download CV</span>
             </a>
 
-            {/* Mobile Hamburger Menu Button */}
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="lg:hidden flex flex-col items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-white/[0.03] text-white focus:outline-none"
-              aria-label="Toggle Menu"
+              className="lg:hidden flex items-center gap-2 px-3.5 py-2 rounded-full border border-teal-500/40 bg-teal-500/10 text-teal-300 text-[11px] font-bold uppercase tracking-wider focus:outline-none"
+              aria-label="Toggle Section Menu"
             >
-              <div className="space-y-1.5 w-4">
-                <span className={`block h-0.5 w-full bg-teal-400 transition-transform duration-300 ${isOpen ? 'rotate-45 translate-y-2' : ''}`} />
-                <span className={`block h-0.5 w-full bg-teal-400 transition-opacity duration-300 ${isOpen ? 'opacity-0' : ''}`} />
-                <span className={`block h-0.5 w-full bg-teal-400 transition-transform duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-              </div>
+              <span>Menu</span>
+              <svg className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
           </div>
 
         </div>
 
-        {/* Mobile Dropdown Menu Drawer */}
+        {/* Mobile Quick-Jump Section Drawer */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -103,28 +102,31 @@ export default function NavigationBar() {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="lg:hidden border-t border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl px-6 py-6"
             >
-              <div className="flex flex-col space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#707070] mb-4">Jump directly to section:</p>
+              
+              {/* Grid layout so they can easily tap 'Projects' or any other section quickly */}
+              <div className="grid grid-cols-2 gap-2.5">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-sm font-bold uppercase tracking-wider text-[#a0a0a0] hover:text-teal-400 transition-colors py-1"
+                    className="rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#a0a0a0] hover:text-teal-300 hover:border-teal-500/40 hover:bg-teal-500/5 transition-all text-center flex items-center justify-center"
                   >
                     {item.label}
                   </Link>
                 ))}
-                
-                <div className="pt-4 border-t border-white/10 flex sm:hidden">
-                  <a
-                    href="/cv/NusratJahanBably_CV.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full text-center rounded-full border border-teal-500/40 bg-teal-500/10 py-2.5 text-xs font-bold uppercase tracking-widest text-teal-300"
-                  >
-                    Download CV
-                  </a>
-                </div>
+              </div>
+              
+              <div className="pt-6 mt-6 border-t border-white/10 flex sm:hidden">
+                <a
+                  href="/cv/NusratJahanBably_CV.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full text-center rounded-full border border-teal-500/40 bg-teal-500/10 py-3 text-xs font-bold uppercase tracking-widest text-teal-300"
+                >
+                  Download CV
+                </a>
               </div>
             </motion.div>
           )}
