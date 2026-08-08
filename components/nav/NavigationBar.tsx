@@ -1,13 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function NavigationBar() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Hide on project sub-pages like /fuel
   if (pathname?.startsWith('/fuel')) {
     return null;
   }
@@ -30,16 +31,14 @@ export default function NavigationBar() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed top-0 left-0 right-0 z-40 pointer-events-none"
     >
-      <nav className="pointer-events-auto w-full border-b border-white/10 bg-[#0a0a0a]/85 backdrop-blur-2xl">
-        
-        {/* FIXED: Changed padding to pt-8 pb-4 to give the cat's head enough room below the browser edge! */}
+      <nav className="pointer-events-auto w-full border-b border-white/10 bg-[#0a0a0a]/90 backdrop-blur-2xl">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-8 pt-8 pb-4">
           
           {/* Workstation Anchor: Side-Profile Laptop */}
           <Link 
             href="/#hero" 
             id="workstation-anchor" 
-            className="relative flex items-center justify-start h-[36px] w-[164px] shrink-0 group"
+            className="relative flex items-center justify-start h-[36px] w-[140px] md:w-[164px] shrink-0 group"
           >
             <span className="sr-only">Nusrat Jahan Bably - Home</span>
             <svg viewBox="0 0 120 40" className="h-full w-full overflow-visible" fill="none">
@@ -53,7 +52,7 @@ export default function NavigationBar() {
             </svg>
           </Link>
 
-          {/* Center Nav Links */}
+          {/* Desktop Center Nav Links */}
           <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <Link
@@ -66,19 +65,71 @@ export default function NavigationBar() {
             ))}
           </div>
 
-          {/* Action Button */}
-          <div className="flex w-[164px] items-center justify-end shrink-0">
+          {/* Right Action Area (CV Button + Mobile Hamburger Toggle) */}
+          <div className="flex items-center gap-3 shrink-0">
             <a
               href="/cv/NusratJahanBably_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-teal-500/40 bg-teal-500/10 px-5 py-2 text-[11px] font-bold uppercase tracking-widest text-teal-300 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-teal-400 hover:bg-teal-500/20 hover:text-white hover:shadow-[0_0_20px_rgba(45,212,191,0.3)] active:scale-95"
+              className="hidden sm:inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/40 bg-teal-500/10 px-4 md:px-5 py-2 text-[11px] font-bold uppercase tracking-widest text-teal-300 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-teal-400 hover:bg-teal-500/20 hover:text-white"
             >
               <span>Download CV</span>
             </a>
+
+            {/* Mobile Hamburger Menu Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              type="button"
+              className="lg:hidden flex flex-col items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-white/[0.03] text-white focus:outline-none"
+              aria-label="Toggle Menu"
+            >
+              <div className="space-y-1.5 w-4">
+                <span className={`block h-0.5 w-full bg-teal-400 transition-transform duration-300 ${isOpen ? 'rotate-45 translate-y-2' : ''}`} />
+                <span className={`block h-0.5 w-full bg-teal-400 transition-opacity duration-300 ${isOpen ? 'opacity-0' : ''}`} />
+                <span className={`block h-0.5 w-full bg-teal-400 transition-transform duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              </div>
+            </button>
           </div>
 
         </div>
+
+        {/* Mobile Dropdown Menu Drawer */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="lg:hidden border-t border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl px-6 py-6"
+            >
+              <div className="flex flex-col space-y-3">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-sm font-bold uppercase tracking-wider text-[#a0a0a0] hover:text-teal-400 transition-colors py-1"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                
+                <div className="pt-4 border-t border-white/10 flex sm:hidden">
+                  <a
+                    href="/cv/NusratJahanBably_CV.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full text-center rounded-full border border-teal-500/40 bg-teal-500/10 py-2.5 text-xs font-bold uppercase tracking-widest text-teal-300"
+                  >
+                    Download CV
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </nav>
     </motion.header>
   );
