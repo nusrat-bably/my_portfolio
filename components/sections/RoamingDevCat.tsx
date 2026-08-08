@@ -23,86 +23,153 @@ export default function RoamingDevCat() {
   const homePos = useRef({ x: 0, y: 0 });
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  /*
+   * ----------------------------------------------------------
+   * CAT / WORKSTATION GEOMETRY
+   * ----------------------------------------------------------
+   *
+   * Workstation SVG:
+   *   viewBox = 120 x 40
+   *   rendered height = 36px
+   *   baseline ≈ y 36
+   *
+   * Cat SVG:
+   *   viewBox = 140 x 100
+   *   rendered height = 85px
+   *   tail/body baseline ≈ y 95
+   *
+   * We therefore align the cat's baseline with the
+   * workstation's actual baseline rather than guessing
+   * a mobile top/left coordinate.
+   */
+
+  const CAT_WIDTH = 140;
+  const CAT_HEIGHT = 85;
+
+  const calculateHomePosition = () => {
+    const anchor = document.getElementById('workstation-anchor');
+
+    if (!anchor) {
+      setIsVisible(false);
+      return;
+    }
+
+    setIsVisible(true);
+
+    const rect = anchor.getBoundingClientRect();
+
+    /*
+     * The workstation SVG fills the anchor:
+     *
+     * SVG viewBox: 120 x 40
+     * Anchor height: 36px
+     *
+     * Laptop baseline is around SVG y=36.
+     */
+    const workstationBaseline =
+      rect.top + (36 / 40) * rect.height;
+
+    /*
+     * Cat baseline:
+     *
+     * SVG viewBox: 140 x 100
+     * Rendered height: 85px
+     *
+     * The tail/body reaches approximately y=95.
+     */
+    const catBaselineOffset =
+      (95 / 100) * CAT_HEIGHT;
+
+    /*
+     * Center the cat over the workstation.
+     *
+     * This is more robust than using rect.left + 5,
+     * especially on mobile.
+     */
+    const targetX =
+      rect.left + rect.width / 2 - CAT_WIDTH / 2;
+
+    /*
+     * Put the cat's paws/body exactly around the
+     * workstation baseline.
+     */
+    const targetY =
+      workstationBaseline - catBaselineOffset;
+
+    homePos.current = {
+      x: targetX,
+      y: targetY,
+    };
+
+    /*
+     * Only reposition immediately while docked.
+     * When the user is scrolling, the roaming animation
+     * remains untouched.
+     */
+    if (window.scrollY < 50 && catState === 'docked') {
+      x.set(targetX);
+      y.set(targetY);
+    }
+  };
+
   // ---------------------------------------------------------
-  // POSITIONING
+  // INITIAL POSITION + RESPONSIVE POSITIONING
   // ---------------------------------------------------------
   useEffect(() => {
     setIsMounted(true);
 
-    const updateHomePosition = () => {
-      const anchor = document.getElementById('workstation-anchor');
+    const initialTimer = window.setTimeout(() => {
+      calculateHomePosition();
+    }, 100);
 
-      if (!anchor) {
-        setIsVisible(false);
-        return;
-      }
-
-      setIsVisible(true);
-
-      const rect = anchor.getBoundingClientRect();
-      const isMobile = window.innerWidth < 768;
-
-      /*
-       * The old mobile version used hard-coded:
-       *
-       *   x: 12
-       *   y: 32
-       *
-       * That meant the cat was no longer attached to the
-       * workstation when the mobile navbar layout changed.
-       *
-       * Instead, we now calculate the position from the actual
-       * workstation anchor on every screen size.
-       */
-
-      const mobileOffsetX = -8;
-      const mobileOffsetY = -10;
-
-      const desktopOffsetX = 5;
-      const desktopOffsetY = -42;
-
-      homePos.current = {
-        x: isMobile
-          ? rect.left + mobileOffsetX
-          : rect.left + desktopOffsetX,
-
-        y: isMobile
-          ? rect.top + mobileOffsetY
-          : rect.top + desktopOffsetY,
-      };
-
-      // Only snap immediately when we're at the top of the page.
-      // This prevents resizing from interrupting the roaming cat.
-      if (window.scrollY < 50) {
-        x.set(homePos.current.x);
-        y.set(homePos.current.y);
-      }
+    const handleResize = () => {
+      calculateHomePosition();
     };
 
-    // Wait until navbar/workstation has rendered.
-    const initialTimer = window.setTimeout(updateHomePosition, 150);
+    window.addEventListener('resize', handleResize);
 
-    window.addEventListener('resize', updateHomePosition);
-
-    // Recalculate if the navbar/workstation itself changes size.
-    const anchor = document.getElementById('workstation-anchor');
-
+    /*
+     * ResizeObserver is important here because the mobile
+     * navbar can change its rendered geometry without a
+     * traditional window resize.
+     */
     let resizeObserver: ResizeObserver | null = null;
+
+    const anchor = document.getElementById('workstation-anchor');
 
     if (anchor && typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
-        updateHomePosition();
+        calculateHomePosition();
       });
 
       resizeObserver.observe(anchor);
     }
 
+    /*
+     * Also observe the header itself because mobile layout
+     * changes can affect the anchor's position.
+     */
+    const header = anchor?.closest('header');
+
+    if (
+      header &&
+      typeof ResizeObserver !== 'undefined'
+    ) {
+      if (!resizeObserver) {
+        resizeObserver = new ResizeObserver(() => {
+          calculateHomePosition();
+        });
+      }
+
+      resizeObserver.observe(header);
+    }
+
     return () => {
       window.clearTimeout(initialTimer);
-      window.removeEventListener('resize', updateHomePosition);
+      window.removeEventListener('resize', handleResize);
       resizeObserver?.disconnect();
     };
-  }, [x, y]);
+  }, [x, y, catState]);
 
   // ---------------------------------------------------------
   // SCROLL / ROAMING ENGINE
@@ -111,7 +178,9 @@ export default function RoamingDevCat() {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
 
-      // Return to workstation when at the top.
+      /*
+       * BACK HOME
+       */
       if (currentScroll < 50) {
         setCatState('docked');
         setFacingRight(true);
@@ -133,6 +202,9 @@ export default function RoamingDevCat() {
         return;
       }
 
+      /*
+       * ROAMING
+       */
       setCatState('walking');
       setIsFrustrated(false);
 
@@ -171,6 +243,9 @@ export default function RoamingDevCat() {
         ease: 'linear',
       });
 
+      /*
+       * STOP AFTER SCROLL
+       */
       scrollTimeout.current = setTimeout(() => {
         setCatState('idle');
 
@@ -204,7 +279,7 @@ export default function RoamingDevCat() {
   }, [x, y]);
 
   // ---------------------------------------------------------
-  // FRUSTRATION / TYPING ENGINE
+  // FRUSTRATION ENGINE
   // ---------------------------------------------------------
   useEffect(() => {
     let frustrationTimer: NodeJS.Timeout;
@@ -212,8 +287,6 @@ export default function RoamingDevCat() {
 
     if (catState === 'docked') {
       const scheduleFrustration = () => {
-        const nextTime = 2000;
-
         frustrationTimer = setTimeout(() => {
           setIsFrustrated(true);
 
@@ -221,7 +294,7 @@ export default function RoamingDevCat() {
             setIsFrustrated(false);
             scheduleFrustration();
           }, 600);
-        }, nextTime);
+        }, 2000);
       };
 
       scheduleFrustration();
@@ -239,9 +312,6 @@ export default function RoamingDevCat() {
     return null;
   }
 
-  // ---------------------------------------------------------
-  // RENDER
-  // ---------------------------------------------------------
   return (
     <motion.div
       className="
@@ -289,9 +359,9 @@ export default function RoamingDevCat() {
           "
         />
 
-        {/* =================================================
-            DOCKED STATE
-        ================================================= */}
+        {/* ==================================================
+            DOCKED CAT
+        ================================================== */}
         {catState === 'docked' ? (
           <svg
             viewBox="0 0 140 100"
@@ -342,7 +412,7 @@ export default function RoamingDevCat() {
               fill="#f8fafc"
             />
 
-            {/* Wrapped tail */}
+            {/* Tail */}
             <path
               d="M 35 80 C 10 80, 5 95, 25 95 C 35 95, 45 90, 45 85"
               fill="none"
@@ -351,7 +421,7 @@ export default function RoamingDevCat() {
               strokeLinecap="round"
             />
 
-            {/* HEAD */}
+            {/* Head */}
             <motion.g
               animate={
                 isFrustrated
@@ -381,19 +451,16 @@ export default function RoamingDevCat() {
                 fill="#f8fafc"
               />
 
-              {/* Left ear */}
               <path
                 d="M 38 28 L 42 12 L 50 26 Z"
                 fill="#f8fafc"
               />
 
-              {/* Right ear */}
               <path
                 d="M 52 25 L 60 12 L 64 28 Z"
                 fill="#f8fafc"
               />
 
-              {/* Face */}
               {isFrustrated ? (
                 <g>
                   <path
@@ -449,9 +516,7 @@ export default function RoamingDevCat() {
               )}
             </motion.g>
 
-            {/* =================================================
-                PAWS — FRUSTRATED
-            ================================================= */}
+            {/* Frustrated paws */}
             {isFrustrated ? (
               <g>
                 <motion.path
@@ -488,9 +553,7 @@ export default function RoamingDevCat() {
                 />
               </g>
             ) : (
-              /* =================================================
-                 PAWS — TYPING
-              ================================================= */
+              /* Typing paws */
               <g>
                 <motion.path
                   d="M 45 60 L 76 81"
@@ -573,9 +636,9 @@ export default function RoamingDevCat() {
             )}
           </svg>
         ) : catState === 'walking' ? (
-          /* =================================================
-             WALKING STATE
-          ================================================= */
+          /* ==================================================
+             WALKING CAT
+          ================================================== */
           <svg
             viewBox="0 0 100 100"
             className="
@@ -586,7 +649,6 @@ export default function RoamingDevCat() {
               overflow-visible
             "
           >
-            {/* Tail */}
             <motion.path
               d="M 28 60 Q 15 30, 30 20"
               fill="none"
@@ -605,13 +667,11 @@ export default function RoamingDevCat() {
               }}
             />
 
-            {/* Body */}
             <path
               d="M 25 65 C 25 45, 70 45, 75 65 Z"
               fill="#f8fafc"
             />
 
-            {/* Legs */}
             <motion.line
               x1="35"
               y1="60"
@@ -652,7 +712,6 @@ export default function RoamingDevCat() {
               }}
             />
 
-            {/* Head */}
             <ellipse
               cx="75"
               cy="50"
@@ -661,7 +720,6 @@ export default function RoamingDevCat() {
               fill="#f8fafc"
             />
 
-            {/* Ears */}
             <path
               d="M 66 40 L 68 28 L 74 38 Z"
               fill="#f8fafc"
@@ -672,7 +730,6 @@ export default function RoamingDevCat() {
               fill="#f8fafc"
             />
 
-            {/* Eyes */}
             <circle
               cx="78"
               cy="48"
@@ -688,9 +745,9 @@ export default function RoamingDevCat() {
             />
           </svg>
         ) : (
-          /* =================================================
-             IDLE STATE
-          ================================================= */
+          /* ==================================================
+             IDLE CAT
+          ================================================== */
           <svg
             viewBox="0 0 100 100"
             className="
@@ -701,7 +758,6 @@ export default function RoamingDevCat() {
               overflow-visible
             "
           >
-            {/* Zzz */}
             <motion.text
               x="50"
               y="25"
@@ -741,19 +797,16 @@ export default function RoamingDevCat() {
               z
             </motion.text>
 
-            {/* Body */}
             <path
               d="M 25 80 C 25 55, 75 55, 80 80 Z"
               fill="#f8fafc"
             />
 
-            {/* Tail */}
             <path
               d="M 25 75 C 10 75, 10 85, 25 85"
               fill="#f8fafc"
             />
 
-            {/* Head */}
             <ellipse
               cx="70"
               cy="65"
@@ -762,7 +815,6 @@ export default function RoamingDevCat() {
               fill="#f8fafc"
             />
 
-            {/* Ears */}
             <path
               d="M 60 55 L 63 42 L 70 53 Z"
               fill="#f8fafc"
@@ -773,7 +825,6 @@ export default function RoamingDevCat() {
               fill="#f8fafc"
             />
 
-            {/* Sleeping eyes */}
             <motion.line
               x1="65"
               y1="65"
