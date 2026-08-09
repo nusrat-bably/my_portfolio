@@ -54,7 +54,7 @@ export default function AchievementsSection() {
   };
 
   return (
-    <section id="achievements" className="bg-[#0a0a0a] pt-6 pb-24 relative overflow-hidden">
+    <section id="achievements" className="bg-[#0a0a0a] pt-4 pb-16 relative overflow-hidden">
       {/* Ambient Background Glow */}
       <div className="pointer-events-none absolute top-1/3 right-10 -z-10 h-80 w-80 rounded-full bg-teal-500/10 blur-[130px]" />
 
@@ -67,15 +67,8 @@ export default function AchievementsSection() {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={containerVariants}
-          className="mb-16 space-y-4"
+          className="mb-12 md:mb-16"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-teal-500" />
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#a0a0a0]">
-              Recognition
-            </span>
-          </motion.div>
-
           <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
             Awards &amp; <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-teal-300">Achievements</span>
           </motion.h2>

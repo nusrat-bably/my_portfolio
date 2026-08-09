@@ -80,8 +80,8 @@ export default function CatCompanion() {
                 </h4>
                 <p className="mt-1 text-[13px] font-medium text-[#777777]">
                   {isSleeping 
-                    ? "Bably is currently sleeping. Drop a message, and she’ll catch it by sunrise." 
-                    : "Online and active for the day. Let's connect or drop your feedback below!"}
+                    ? "Bably is currently offline. Drop a message, and she’ll catch it by sunrise T_T " 
+                    : "Online and active for the day. Let's connect or drop your feedback below! :)) "}
                 </p>
               </div>
 

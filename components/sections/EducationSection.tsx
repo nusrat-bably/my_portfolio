@@ -17,12 +17,11 @@ export default function EducationSection() {
   };
 
   return (
-    <section id="education" className="bg-[#0a0a0a] pt-6 pb-24 relative overflow-hidden">
-      {/* Ambient background glow - Updated to Teal */}
+    <section id="education" className="bg-[#0a0a0a] pt-4 pb-16 relative overflow-hidden">
+      {/* Ambient background glow */}
       <div className="pointer-events-none absolute top-1/3 right-10 -z-10 h-80 w-80 rounded-full bg-teal-500/10 blur-[130px]" />
       <div className="pointer-events-none absolute bottom-10 left-10 -z-10 h-80 w-80 rounded-full bg-teal-400/5 blur-[130px]" />
 
-      {/* MATCHED CONTAINER: max-w-7xl ensures exact left-edge alignment with Skills & Achievements */}
       <div className="container-max mx-auto max-w-7xl px-6 relative z-10">
         
         {/* Editorial Section Header */}
@@ -31,15 +30,8 @@ export default function EducationSection() {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={containerVariants}
-          className="mb-16 space-y-4"
+          className="mb-12 md:mb-16"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-teal-500" />
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#a0a0a0]">
-              Education
-            </span>
-          </motion.div>
-
           <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
             Academic <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-teal-300">Background</span>
           </motion.h2>
@@ -58,7 +50,6 @@ export default function EducationSection() {
             variants={itemVariants}
             className="group relative rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 transition-all duration-500 hover:border-teal-500/40 hover:bg-white/[0.04] shadow-2xl overflow-hidden"
           >
-            {/* Updated Radial Glow */}
             <div className="absolute top-0 right-0 -z-10 h-64 w-64 translate-x-20 -translate-y-20 rounded-full bg-[radial-gradient(circle,rgba(20,184,166,0.15)_0%,transparent_70%)] pointer-events-none" />
 
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 border-b border-white/10 pb-8">

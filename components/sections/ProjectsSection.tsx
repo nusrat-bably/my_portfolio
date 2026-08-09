@@ -59,7 +59,6 @@ export default function ProjectsSection() {
         'Implemented wireless data transmission via Bluetooth and displayed metrics on I2C LCD.',
       ],
       image: '/achieve/p4.jpeg', 
-      // Linked directly to your component route /fuel
       link: '/fuel',
       linkLabel: 'View Case Study',
     },
@@ -79,11 +78,10 @@ export default function ProjectsSection() {
   };
 
   return (
-    <section id="projects" className="bg-[#0a0a0a] pt-6 pb-24 relative overflow-hidden">
+    <section id="projects" className="bg-[#0a0a0a] pt-4 pb-16 relative overflow-hidden">
       {/* Ambient Background Glow */}
       <div className="pointer-events-none absolute bottom-1/3 left-10 -z-10 h-96 w-96 rounded-full bg-teal-500/10 blur-[140px]" />
 
-      {/* MATCHED CONTAINER: max-w-7xl ensures exact left-edge alignment */}
       <div className="container-max mx-auto max-w-7xl px-6 relative z-10">
         
         {/* Editorial Section Header */}
@@ -92,15 +90,8 @@ export default function ProjectsSection() {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           variants={containerVariants}
-          className="mb-16 space-y-4"
+          className="mb-10 md:mb-12"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 backdrop-blur-md">
-            <span className="h-2 w-2 rounded-full bg-teal-500" />
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#a0a0a0]">
-              Portfolio
-            </span>
-          </motion.div>
-
           <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
             Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-teal-300">Projects</span>
           </motion.h2>
@@ -122,13 +113,10 @@ export default function ProjectsSection() {
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
                 
-                {/* Left/Right Staged Visual Showcase - STUDIO FRAME (ZERO CROPPING) */}
                 <div className={`col-span-1 lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
                   <div className="relative aspect-video sm:aspect-[16/10] lg:aspect-square xl:aspect-[16/10] w-full rounded-3xl border border-white/10 bg-gradient-to-br from-[#141414] via-[#1a1a1a] to-[#0a0a0a] flex items-center justify-center overflow-hidden shadow-2xl group-hover:border-teal-500/30 transition-all duration-500 p-4 sm:p-6">
-                    {/* Updated Radial Glow */}
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.18)_0%,transparent_70%)] opacity-80 group-hover:opacity-100 transition-opacity z-0 pointer-events-none" />
                     
-                    {/* Check if it's an image file path or an emoji */}
                     {project.image.startsWith('/') ? (
                       <div className="relative z-10 w-full h-full flex items-center justify-center overflow-hidden rounded-xl">
                         <img
@@ -145,7 +133,6 @@ export default function ProjectsSection() {
                   </div>
                 </div>
 
-                {/* Content Details */}
                 <div className={`col-span-1 lg:col-span-7 space-y-6 ${idx % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
                   <div>
                     <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-teal-300 mb-2">
@@ -160,7 +147,6 @@ export default function ProjectsSection() {
                     {project.description}
                   </p>
 
-                  {/* Key Highlights */}
                   <div className="space-y-3 pt-2">
                     <p className="text-xs font-bold uppercase tracking-widest text-[#707070]">Key Implementations:</p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -173,7 +159,6 @@ export default function ProjectsSection() {
                     </ul>
                   </div>
 
-                  {/* Tech Stack Pills & HIGHLIGHTED GITHUB BUTTON */}
                   <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
                     <div className="flex flex-wrap gap-2 max-w-lg">
                       {project.technologies.map((tech) => (
@@ -183,7 +168,6 @@ export default function ProjectsSection() {
                       ))}
                     </div>
 
-                    {/* Highlighted Link Button */}
                     <a
                       href={project.link}
                       target={project.link.startsWith('http') ? '_blank' : undefined}
