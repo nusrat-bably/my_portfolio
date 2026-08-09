@@ -9,6 +9,7 @@ export default function NavigationBar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  // Hide on project sub-pages like /fuel
   if (pathname?.startsWith('/fuel')) {
     return null;
   }
@@ -31,16 +32,17 @@ export default function NavigationBar() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed top-0 left-0 right-0 z-40 pointer-events-none"
     >
+      {/* REFINED: Seamless integration with hero (darker bg, softer border) */}
       <nav className="pointer-events-auto w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-2xl transition-colors duration-300">
         
-        {/* FIXED: Reduced to pt-6 for a slightly shorter, tighter navbar */}
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-8 pt-6 pb-4">
+        {/* REFINED: Padding preserved to ensure cat's head never clips */}
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-8 pt-8 pb-4">
           
-          {/* FIXED: Added mt-1.5 to act as a physical buffer, pushing the cat down safely below the browser edge */}
+          {/* Workstation Anchor: Structural footprint remains exactly as you had it */}
           <Link 
             href="/#hero" 
             id="workstation-anchor" 
-            className="relative flex items-center justify-start h-[36px] w-[140px] md:w-[164px] shrink-0 group mt-1.5"
+            className="relative flex items-center justify-start h-[36px] w-[140px] md:w-[164px] shrink-0 group"
           >
             <span className="sr-only">Nusrat Jahan Bably - Home</span>
             <svg viewBox="0 0 120 40" className="h-full w-full overflow-visible" fill="none">
@@ -54,8 +56,11 @@ export default function NavigationBar() {
             </svg>
           </Link>
 
+          {/* Desktop Center Nav Links */}
+          {/* REFINED: More breathing room (gap-2 xl:gap-3) */}
           <div className="hidden lg:flex items-center gap-2 xl:gap-3">
             {navItems.map((item) => (
+              /* REFINED: Better contrast (text-[#888]), slightly larger (text-xs), subtle hover pill */
               <Link
                 key={item.href}
                 href={item.href}
@@ -66,7 +71,9 @@ export default function NavigationBar() {
             ))}
           </div>
 
+          {/* Right Action Area (CV Button + Mobile Quick Jump Toggle) */}
           <div className="flex items-center gap-3 shrink-0">
+            {/* REFINED: Matched text size, softer border glow */}
             <a
               href="/cv/NusratJahanBably_CV.pdf"
               target="_blank"
@@ -76,6 +83,7 @@ export default function NavigationBar() {
               <span>Download CV</span>
             </a>
 
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
@@ -91,6 +99,7 @@ export default function NavigationBar() {
 
         </div>
 
+        {/* Mobile Quick-Jump Section Drawer */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
