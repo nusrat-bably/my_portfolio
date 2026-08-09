@@ -9,7 +9,6 @@ export default function NavigationBar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Hide on project sub-pages like /fuel
   if (pathname?.startsWith('/fuel')) {
     return null;
   }
@@ -30,64 +29,57 @@ export default function NavigationBar() {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-40 pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-40 pointer-events-none pt-2 md:pt-3 px-4 md:px-8"
     >
-      {/* REFINED: Seamless integration with hero (darker bg, softer border) */}
-      <nav className="pointer-events-auto w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-2xl transition-colors duration-300">
+      <nav className="pointer-events-auto w-full max-w-7xl mx-auto rounded-2xl border border-white/5 bg-[#050505]/85 backdrop-blur-2xl transition-colors duration-300">
         
-        {/* REFINED: Padding preserved to ensure cat's head never clips */}
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 md:px-8 pt-8 pb-4">
+        <div className="flex w-full items-center justify-between px-4 md:px-6 py-3.5">
           
-          {/* Workstation Anchor: Structural footprint remains exactly as you had it */}
+          {/* FIX: Scaled down mobile dimensions (h-[32px] w-[110px]) so the cat doesn't overhang aggressively on phones */}
           <Link 
             href="/#hero" 
             id="workstation-anchor" 
-            className="relative flex items-center justify-start h-[36px] w-[140px] md:w-[164px] shrink-0 group"
+            className="relative flex items-center justify-start h-[32px] w-[110px] md:h-[40px] md:w-[150px] shrink-0 group overflow-visible"
           >
             <span className="sr-only">Nusrat Jahan Bably - Home</span>
-            <svg viewBox="0 0 120 40" className="h-full w-full overflow-visible" fill="none">
-              <line x1="5" y1="36" x2="115" y2="36" stroke="#444" strokeWidth="2.5" strokeLinecap="round" />
-              <motion.path d="M 83 12 L 40 18 L 40 32 L 80 32 Z" fill="#2dd4bf" opacity="0.15" animate={{ opacity: [0.1, 0.25, 0.1] }} transition={{ repeat: Infinity, duration: 3 }} />
-              <line x1="80" y1="32" x2="45" y2="32" stroke="#e5e5e5" strokeWidth="3.5" strokeLinecap="round" />
-              <line x1="85" y1="10" x2="80" y2="32" stroke="#e5e5e5" strokeWidth="3.5" strokeLinecap="round" />
-              <rect x="92" y="22" width="10" height="12" rx="2" fill="#0a0a0a" stroke="#e5e5e5" strokeWidth="2" />
-              <path d="M 102 25 C 106 25, 106 31, 102 31" fill="none" stroke="#e5e5e5" strokeWidth="2" strokeLinecap="round" />
-              <motion.path d="M 95 18 Q 98 15, 95 12" stroke="#e5e5e5" strokeWidth="1.5" fill="none" strokeLinecap="round" animate={{ y: [0, -3, 0], opacity: [0.2, 0.8, 0.2] }} transition={{ repeat: Infinity, duration: 2 }} />
+            {/* Note: Paste your full cat SVG here. Using the viewBox we fixed earlier. */}
+            <svg viewBox="0 0 140 55" className="h-full w-full overflow-visible" fill="none">
+              <line x1="5" y1="46" x2="135" y2="46" stroke="#444" strokeWidth="2.5" strokeLinecap="round" />
+              <motion.path d="M 83 20 L 40 26 L 40 42 L 80 42 Z" fill="#2dd4bf" opacity="0.15" animate={{ opacity: [0.1, 0.25, 0.1] }} transition={{ repeat: Infinity, duration: 3 }} />
+              <line x1="80" y1="42" x2="45" y2="42" stroke="#e5e5e5" strokeWidth="3.5" strokeLinecap="round" />
+              <line x1="85" y1="18" x2="80" y2="42" stroke="#e5e5e5" strokeWidth="3.5" strokeLinecap="round" />
+              <rect x="92" y="32" width="10" height="12" rx="2" fill="#0a0a0a" stroke="#e5e5e5" strokeWidth="2" />
+              <path d="M 102 35 C 106 35, 106 41, 102 41" fill="none" stroke="#e5e5e5" strokeWidth="2" strokeLinecap="round" />
+              <motion.path d="M 95 28 Q 98 25, 95 22" stroke="#e5e5e5" strokeWidth="1.5" fill="none" strokeLinecap="round" animate={{ y: [0, -3, 0], opacity: [0.2, 0.8, 0.2] }} transition={{ repeat: Infinity, duration: 2 }} />
             </svg>
           </Link>
 
-          {/* Desktop Center Nav Links */}
-          {/* REFINED: More breathing room (gap-2 xl:gap-3) */}
-          <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navItems.map((item) => (
-              /* REFINED: Better contrast (text-[#888]), slightly larger (text-xs), subtle hover pill */
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 xl:px-4 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:bg-teal-500/5 transition-all duration-300 whitespace-nowrap"
+                className="px-3 py-2 rounded-full text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:bg-teal-500/5 transition-all duration-300 whitespace-nowrap"
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          {/* Right Action Area (CV Button + Mobile Quick Jump Toggle) */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* REFINED: Matched text size, softer border glow */}
             <a
               href="/cv/NusratJahanBably_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/30 bg-teal-500/5 px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-teal-300/90 backdrop-blur-md transition-all duration-300 hover:border-teal-400/60 hover:bg-teal-500/10 hover:text-teal-100"
+              className="hidden sm:inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/30 bg-teal-500/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-teal-300/90 backdrop-blur-md transition-all duration-300 hover:border-teal-400/60 hover:bg-teal-500/10 hover:text-teal-100"
             >
               <span>Download CV</span>
             </a>
 
-            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-full border border-teal-500/30 bg-teal-500/5 text-teal-300/90 text-xs font-semibold uppercase tracking-wider focus:outline-none transition-colors hover:bg-teal-500/10"
+              className="lg:hidden flex items-center gap-2 px-3.5 py-2 rounded-full border border-teal-500/30 bg-teal-500/5 text-teal-300/90 text-xs font-semibold uppercase tracking-wider focus:outline-none transition-colors hover:bg-teal-500/10"
               aria-label="Toggle Section Menu"
             >
               <span>Menu</span>
@@ -99,7 +91,6 @@ export default function NavigationBar() {
 
         </div>
 
-        {/* Mobile Quick-Jump Section Drawer */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -107,7 +98,7 @@ export default function NavigationBar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="lg:hidden border-t border-white/5 bg-[#050505]/95 backdrop-blur-2xl px-6 py-6"
+              className="lg:hidden border-t border-white/5 bg-[#050505]/95 backdrop-blur-2xl px-6 py-6 rounded-b-2xl"
             >
               <p className="text-[10px] font-bold uppercase tracking-widest text-[#666] mb-4">Jump directly to section:</p>
               
