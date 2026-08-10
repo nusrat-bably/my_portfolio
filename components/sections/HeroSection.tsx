@@ -23,16 +23,14 @@ export default function HeroSection() {
   const item = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } };
 
   return (
-    // FIX: Changed to 100svh to handle mobile address bars smoothly
-    <section id="hero" className="relative flex min-h-[100svh] flex-col justify-center pt-24 md:pt-20 pb-20 overflow-hidden">
+    // FIX: Returned to standard padding (pt-24) now that the cat is contained safely inside the nav box.
+    <section id="hero" className="relative flex min-h-[100svh] flex-col justify-center pt-24 lg:pt-20 pb-24 overflow-hidden">
       <HeroBackground />
 
       <div className="container-max mx-auto max-w-7xl px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-center">
           
-          {/* Identity & Editorial Content */}
-          {/* FIX: Added mt-16 on mobile. This forcefully pushes the text down away from the navbar cat! */}
-          <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col mt-16 md:mt-0">
+          <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col">
             
             <motion.div variants={item} className="mb-6 font-mono text-[10px] uppercase tracking-[0.25em] text-teal-400/80">
               SOFTWARE ENGINEERING · AI · RESEARCH
@@ -43,7 +41,6 @@ export default function HeroSection() {
               <span className="bg-gradient-to-r from-teal-100 via-teal-300 to-teal-600/80 bg-clip-text text-transparent drop-shadow-sm">Bably</span>
             </motion.h1>
 
-            {/* Living Status Line */}
             <motion.div variants={item} className="mb-8 border-l-2 border-teal-500/20 pl-6 py-1">
               <div className="flex items-center gap-3 mb-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.6)] animate-pulse" />
@@ -67,14 +64,12 @@ export default function HeroSection() {
             </motion.p>
           </motion.div>
 
-          {/* Evidence Cards */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, delay: 0.3 }} 
             className="flex flex-col gap-5 w-full max-w-[500px] mx-auto lg:mx-0 lg:ml-auto"
           >
-            {/* Academic Record Card */}
             <div className="group relative rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:border-teal-500/30 hover:bg-white/[0.04]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[2rem]" />
               <div className="relative z-10">
@@ -87,7 +82,6 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Engineering & Research Cards */}
             <div className="grid grid-cols-2 gap-4">
               <div className="group relative rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:border-teal-500/30 hover:bg-white/[0.04]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[1.5rem]" />
@@ -104,7 +98,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Hint */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="absolute bottom-8 left-0 right-0 flex justify-center">
         <Link href="#about" className="text-[9px] font-semibold uppercase tracking-[0.3em] text-slate-500 hover:text-teal-400 transition-colors">
           Scroll to Explore

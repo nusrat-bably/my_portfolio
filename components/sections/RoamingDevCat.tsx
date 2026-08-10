@@ -14,6 +14,7 @@ export default function RoamingDevCat() {
   const y = useMotionValue(0);
   
   const homePos = useRef({ x: 0, y: 0 });
+  const [anchorSize, setAnchorSize] = useState({ w: 240, h: 70 });
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -21,7 +22,6 @@ export default function RoamingDevCat() {
     
     const updateHomePosition = () => {
       const anchor = document.getElementById('workstation-anchor');
-      
       if (!anchor) {
         setIsVisible(false);
         return;
@@ -29,12 +29,8 @@ export default function RoamingDevCat() {
       setIsVisible(true);
 
       const rect = anchor.getBoundingClientRect();
-      const isMobile = window.innerWidth < 768;
-      
-      homePos.current = { 
-        x: isMobile ? rect.left + 25 : rect.left + 5, 
-        y: isMobile ? rect.top - 10 : rect.top - 42 
-      };
+      setAnchorSize({ w: rect.width, h: rect.height });
+      homePos.current = { x: rect.left, y: rect.top };
       
       if (window.scrollY < 50) {
         x.set(homePos.current.x);
@@ -75,7 +71,7 @@ export default function RoamingDevCat() {
       scrollTimeout.current = setTimeout(() => {
         setCatState('idle');
         const isRightSide = x.get() > window.innerWidth / 2;
-        const safeMarginX = isRightSide ? window.innerWidth - 90 : 10;
+        const safeMarginX = isRightSide ? window.innerWidth - 100 : 10;
         
         animate(x, safeMarginX, { duration: 0.7, ease: 'easeInOut' });
         setFacingRight(!isRightSide);
@@ -97,19 +93,15 @@ export default function RoamingDevCat() {
 
     if (catState === 'docked') {
       const scheduleFrustration = () => {
-        const nextTime = 2000; 
-        
+        const nextTime = 4000; 
         frustrationTimer = setTimeout(() => {
           setIsFrustrated(true);
-          
           calmTimer = setTimeout(() => {
             setIsFrustrated(false);
             scheduleFrustration(); 
-          }, 600);
-          
+          }, 1500); 
         }, nextTime);
       };
-      
       scheduleFrustration();
     } else {
       setIsFrustrated(false);
@@ -129,125 +121,157 @@ export default function RoamingDevCat() {
       style={{ left: x, top: y }}
     >
       <motion.div 
-        className="relative h-[85px] w-[140px] drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)] overflow-visible"
+        style={{ 
+          width: catState === 'docked' ? anchorSize.w : 100, 
+          height: catState === 'docked' ? anchorSize.h : 100 
+        }}
+        className="relative overflow-visible flex items-center justify-center"
         animate={{ scaleX: facingRight ? 1 : -1 }}
         transition={{ duration: 0.3 }}
       >
-        
         <div className="absolute top-1/2 left-1/2 h-[100px] w-[100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-teal-500/10 blur-[40px] pointer-events-none" />
 
         {catState === 'docked' ? (
-          <svg viewBox="0 0 140 100" className="relative z-10 h-full w-full overflow-visible">
+          <svg viewBox="0 0 240 70" className="relative z-10 h-full w-full overflow-visible" xmlns="http://www.w3.org/2000/svg">
             
             <AnimatePresence>
               {isFrustrated && (
                 <>
-                  {/* FIXED: Comment is safely outside the motion.text element */}
+                  {/* TEXT: Size increased to 18 and moved further up and right */}
                   <motion.text
-                    initial={{ opacity: 0, y: 45, x: 72, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 32, x: 75, scale: 1 }}
-                    exit={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 5, x: 135, scale: 0.8 }}
+                    animate={{ opacity: 1, y: -5, x: 140, scale: 1 }}
+                    exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
-                    fill="#2dd4bf"
-                    fontSize="12"
-                    fontWeight="900"
-                    className="drop-shadow-lg"
+                    fill="#ffffff"
+                    fontSize="18"
+                    fontWeight="500"
+                    fontFamily="cursive, sans-serif"
+                    style={{ transform: 'rotate(-5deg)' }}
                   >
-                    Ughhhh...
+                    ughhhhh
                   </motion.text>
+                  
+                  {/* SPIRAL: Scaled up by 1.5x and shifted further up and left */}
+                  <motion.path 
+                    d="M 108 5 C 102 -5, 92 5, 98 12 C 105 20, 115 5, 108 0 C 100 -5, 90 5, 96 15 C 104 25, 118 10, 110 0 C 100 -10, 88 5, 100 15" 
+                    fill="none" stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
+                    initial={{ opacity: 0, scale: 0.5, x: -10, y: 0, rotate: -20 }}
+                    animate={{ opacity: 1, scale: 1.5, x: -25, y: -10, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 1.2, x: -25, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ transformOrigin: "100px 5px" }}
+                    className="drop-shadow-[0_0_6px_rgba(69,211,181,0.6)]"
+                  />
                 </>
               )}
             </AnimatePresence>
 
-            <path d="M 35 85 C 20 85, 20 45, 45 45 C 55 45, 60 70, 55 85 Z" fill="#f8fafc" />
-            
-            <path d="M 35 80 C 10 80, 5 95, 25 95 C 35 95, 45 90, 45 85" fill="none" stroke="#f8fafc" strokeWidth="6" strokeLinecap="round" />
-            
-            <motion.g
-              animate={isFrustrated ? { y: 6, rotate: -5 } : { y: 0, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 400, damping: 15 }}
-              style={{ transformOrigin: "50px 65px" }} 
+            {/* TAIL WAGGING */}
+            <motion.g 
+              style={{ transformOrigin: "135px 63px" }}
+              animate={{ rotate: [0, 5, -2, 4, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
             >
-              <ellipse cx="50" cy="40" rx="18" ry="15" fill="#f8fafc" />
-              <path d="M 38 28 L 42 12 L 50 26 Z" fill="#f8fafc" />
-              <path d="M 52 25 L 60 12 L 64 28 Z" fill="#f8fafc" />
-              
-              {isFrustrated ? (
-                <g>
-                  <path d="M 46 36 L 51 39 L 46 42" stroke="#0a0a0a" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M 64 36 L 59 39 L 64 42" stroke="#0a0a0a" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M 52 46 Q 55 43, 58 46" stroke="#0a0a0a" strokeWidth="2" fill="none" strokeLinecap="round" />
-                </g>
-              ) : (
-                <g>
-                  <circle cx="56" cy="38" r="2.5" fill="#0a0a0a" />
-                  <circle cx="66" cy="38" r="2.5" fill="#0a0a0a" />
-                  <path d="M 60 43 L 61 45 L 62 43" stroke="#0a0a0a" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-                </g>
-              )}
+              <path d="M 135 63 Q 165 63, 155 68 Q 145 70, 135 68" fill="none" stroke="#474554" strokeWidth="7" strokeLinecap="round" />
+              <path d="M 135 63 Q 165 63, 155 68 Q 145 70, 135 68" fill="none" stroke="#ffffff" strokeWidth="5" strokeLinecap="round" />
             </motion.g>
 
+            {/* BODY & CHAIR */}
+            <path d="M 100 70 L 105 45 Q 120 40, 135 45 L 140 70 Z" fill="#e8e4e6" stroke="#474554" strokeWidth="1.2" strokeLinejoin="round" />
+            <path d="M 108 45 C 108 30, 132 30, 132 45 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.2" strokeLinejoin="round" />
+
+            <motion.g 
+              animate={isFrustrated ? { rotate: -15, x: -4, y: 6 } : { rotate: 0, x: 0, y: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              style={{ transformOrigin: "120px 24px" }}
+            >
+              <path d="M 112 14 L 110 3 L 118 10 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.2" strokeLinejoin="round" />
+              <path d="M 128 14 L 130 3 L 122 10 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.2" strokeLinejoin="round" />
+              <circle cx="120" cy="22" r="14" fill="#ffffff" stroke="#474554" strokeWidth="1.2" />
+
+              <g stroke="#474554" strokeWidth="0.8" strokeLinecap="round">
+                <line x1="106" y1="23" x2="98" y2="21" />
+                <line x1="106" y1="26" x2="99" y2="27" />
+                <line x1="134" y1="23" x2="142" y2="21" />
+                <line x1="134" y1="26" x2="141" y2="27" />
+              </g>
+
+              <path d="M 106 22 C 106 5, 134 5, 134 22" fill="none" stroke="#45D3B5" strokeWidth="2.5" />
+              <rect x="104" y="17" width="5" height="12" rx="2" fill="#45D3B5" stroke="#474554" strokeWidth="1" />
+              <rect x="131" y="17" width="5" height="12" rx="2" fill="#45D3B5" stroke="#474554" strokeWidth="1" />
+            </motion.g>
+
+            {/* ARMS AND PAWS */}
             {isFrustrated ? (
               <g>
-                <motion.path 
-                  d="M 35 60 Q 30 38 46 36" 
-                  stroke="#f8fafc" strokeWidth="6" strokeLinecap="round" fill="none" 
-                  animate={{ y: [0, 1.5, 0] }} transition={{ repeat: Infinity, duration: 0.5, ease: "easeInOut" }} 
-                />
-                <motion.path 
-                  d="M 50 65 Q 68 40 64 36" 
-                  stroke="#e2e8f0" strokeWidth="6" strokeLinecap="round" fill="none" 
-                  animate={{ y: [0, 1.5, 0] }} transition={{ repeat: Infinity, duration: 0.5, delay: 0.1, ease: "easeInOut" }} 
-                />
+                <path d="M 108 43 Q 95 30, 102 24" fill="none" stroke="#474554" strokeWidth="5.5" strokeLinecap="round" />
+                <path d="M 132 43 Q 148 20, 126 14" fill="none" stroke="#474554" strokeWidth="5.5" strokeLinecap="round" />
+                <path d="M 108 43 Q 95 30, 102 24" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" />
+                <path d="M 132 43 Q 148 20, 126 14" fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" />
               </g>
             ) : (
               <g>
+                {/* BOTH ARMS ACTIVELY TYPING */}
                 <motion.path 
-                  d="M 45 60 L 76 81" 
-                  stroke="#f8fafc" strokeWidth="6" strokeLinecap="round" 
-                  style={{ transformOrigin: "45px 60px" }}
-                  animate={{ rotate: [0, -6, -2, -8, 0, -5, -1, 0, 0] }} 
-                  transition={{ repeat: Infinity, duration: 0.35, times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.85, 0.9, 1], ease: "linear" }} 
+                  d="M 108 43 Q 90 48, 98 56" 
+                  fill="none" stroke="#474554" strokeWidth="5.5" strokeLinecap="round" 
+                  animate={{ d: ["M 108 43 Q 90 48, 98 56", "M 108 43 Q 95 45, 102 53", "M 108 43 Q 90 48, 98 56"] }}
+                  transition={{ repeat: Infinity, duration: 0.3, ease: "linear" }}
                 />
                 <motion.path 
-                  d="M 50 66 L 82 83" 
-                  stroke="#e2e8f0" strokeWidth="6" strokeLinecap="round" 
-                  style={{ transformOrigin: "50px 66px" }}
-                  animate={{ rotate: [-5, 0, -7, -1, -6, 0, -3, 0, -5] }} 
-                  transition={{ repeat: Infinity, duration: 0.38, times: [0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.8, 0.9, 1], ease: "linear" }} 
+                  d="M 108 43 Q 90 48, 98 56" 
+                  fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" 
+                  animate={{ d: ["M 108 43 Q 90 48, 98 56", "M 108 43 Q 95 45, 102 53", "M 108 43 Q 90 48, 98 56"] }}
+                  transition={{ repeat: Infinity, duration: 0.3, ease: "linear" }}
                 />
+                <motion.g stroke="#474554" strokeWidth="1" strokeLinecap="round" animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 0.3, delay: 0.15 }}>
+                  <line x1="93" y1="52" x2="90" y2="48" />
+                  <line x1="96" y1="56" x2="92" y2="58" />
+                </motion.g>
+
+                <motion.path 
+                  d="M 132 43 Q 150 48, 142 56" 
+                  fill="none" stroke="#474554" strokeWidth="5.5" strokeLinecap="round" 
+                  animate={{ d: ["M 132 43 Q 150 48, 142 56", "M 132 43 Q 145 45, 138 53", "M 132 43 Q 150 48, 142 56"] }}
+                  transition={{ repeat: Infinity, duration: 0.25, ease: "linear", delay: 0.1 }}
+                />
+                <motion.path 
+                  d="M 132 43 Q 150 48, 142 56" 
+                  fill="none" stroke="#ffffff" strokeWidth="3.5" strokeLinecap="round" 
+                  animate={{ d: ["M 132 43 Q 150 48, 142 56", "M 132 43 Q 145 45, 138 53", "M 132 43 Q 150 48, 142 56"] }}
+                  transition={{ repeat: Infinity, duration: 0.25, ease: "linear", delay: 0.1 }}
+                />
+                <motion.g stroke="#474554" strokeWidth="1" strokeLinecap="round" animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 0.25, delay: 0.1 }}>
+                  <line x1="145" y1="52" x2="148" y2="48" />
+                  <line x1="142" y1="56" x2="146" y2="58" />
+                </motion.g>
               </g>
             )}
           </svg>
 
         ) : catState === 'walking' ? (
           <svg viewBox="0 0 100 100" className="relative z-10 h-full w-full overflow-visible">
-            <motion.path d="M 28 60 Q 15 30, 30 20" fill="none" stroke="#f8fafc" strokeWidth="6" strokeLinecap="round" animate={{ rotate: [-5, 5, -5] }} transition={{ repeat: Infinity, duration: 0.6 }} style={{ transformOrigin: "28px 60px" }} />
-            <path d="M 25 65 C 25 45, 70 45, 75 65 Z" fill="#f8fafc" />
-            
-            <motion.line x1="35" y1="60" x2="35" y2="78" stroke="#f8fafc" strokeWidth="6" strokeLinecap="round" animate={{ rotate: [-20, 20, -20] }} transition={{ repeat: Infinity, duration: 0.3 }} style={{ transformOrigin: "35px 60px" }} />
-            <motion.line x1="65" y1="60" x2="65" y2="78" stroke="#f8fafc" strokeWidth="6" strokeLinecap="round" animate={{ rotate: [20, -20, 20] }} transition={{ repeat: Infinity, duration: 0.3 }} style={{ transformOrigin: "65px 60px" }} />
-            
-            <ellipse cx="75" cy="50" rx="14" ry="12" fill="#f8fafc" />
-            <path d="M 66 40 L 68 28 L 74 38 Z" fill="#f8fafc" />
-            <path d="M 76 38 L 82 28 L 84 40 Z" fill="#f8fafc" />
-            
+            <motion.path d="M 28 60 Q 15 30, 30 20" fill="none" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" animate={{ rotate: [-5, 5, -5] }} transition={{ repeat: Infinity, duration: 0.6 }} style={{ transformOrigin: "28px 60px" }} />
+            <path d="M 25 65 C 25 45, 70 45, 75 65 Z" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <motion.line x1="35" y1="60" x2="35" y2="78" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" animate={{ rotate: [-20, 20, -20] }} transition={{ repeat: Infinity, duration: 0.3 }} style={{ transformOrigin: "35px 60px" }} />
+            <motion.line x1="65" y1="60" x2="65" y2="78" stroke="#ffffff" strokeWidth="6" strokeLinecap="round" animate={{ rotate: [20, -20, 20] }} transition={{ repeat: Infinity, duration: 0.3 }} style={{ transformOrigin: "65px 60px" }} />
+            <ellipse cx="75" cy="50" rx="14" ry="12" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <path d="M 66 40 L 68 28 L 74 38 Z" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <path d="M 76 38 L 82 28 L 84 40 Z" fill="#ffffff" stroke="#474554" strokeWidth="1" />
             <circle cx="78" cy="48" r="2.5" fill="#0a0a0a" />
             <circle cx="86" cy="48" r="2.5" fill="#0a0a0a" />
           </svg>
 
         ) : (
           <svg viewBox="0 0 100 100" className="relative z-10 h-full w-full overflow-visible">
-            <motion.text x="50" y="25" fill="#a0a0a0" fontSize="14" fontWeight="bold" animate={{ opacity: [0, 1, 0], y: [0, -15, -25], x: [0, 5, -5] }} transition={{ repeat: Infinity, duration: 3 }}>Z</motion.text>
-            <motion.text x="65" y="15" fill="#a0a0a0" fontSize="10" fontWeight="bold" animate={{ opacity: [0, 1, 0], y: [0, -10, -20], x: [0, -5, 5] }} transition={{ repeat: Infinity, duration: 3, delay: 1.5 }}>z</motion.text>
-
-            <path d="M 25 80 C 25 55, 75 55, 80 80 Z" fill="#f8fafc" />
-            <path d="M 25 75 C 10 75, 10 85, 25 85" fill="#f8fafc" />
-            
-            <ellipse cx="70" cy="65" rx="15" ry="12" fill="#f8fafc" />
-            <path d="M 60 55 L 63 42 L 70 53 Z" fill="#f8fafc" />
-            <path d="M 72 53 L 79 42 L 82 55 Z" fill="#f8fafc" />
-            
+            <motion.text x="50" y="25" fill="#45D3B5" fontSize="14" fontWeight="bold" animate={{ opacity: [0, 1, 0], y: [0, -15, -25], x: [0, 5, -5] }} transition={{ repeat: Infinity, duration: 3 }}>Z</motion.text>
+            <motion.text x="65" y="15" fill="#45D3B5" fontSize="10" fontWeight="bold" animate={{ opacity: [0, 1, 0], y: [0, -10, -20], x: [0, -5, 5] }} transition={{ repeat: Infinity, duration: 3, delay: 1.5 }}>z</motion.text>
+            <path d="M 25 80 C 25 55, 75 55, 80 80 Z" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <path d="M 25 75 C 10 75, 10 85, 25 85" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <ellipse cx="70" cy="65" rx="15" ry="12" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <path d="M 60 55 L 63 42 L 70 53 Z" fill="#ffffff" stroke="#474554" strokeWidth="1" />
+            <path d="M 72 53 L 79 42 L 82 55 Z" fill="#ffffff" stroke="#474554" strokeWidth="1" />
             <motion.line x1="65" y1="65" x2="70" y2="65" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" animate={{ scaleY: [1, 0.1, 1] }} transition={{ repeat: Infinity, duration: 4, times: [0, 0.45, 0.5] }} />
             <motion.line x1="76" y1="65" x2="81" y2="65" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" animate={{ scaleY: [1, 0.1, 1] }} transition={{ repeat: Infinity, duration: 4, times: [0, 0.45, 0.5] }} />
           </svg>
