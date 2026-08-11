@@ -1,196 +1,292 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ResearchSection() {
   const [selectedPoster, setSelectedPoster] = useState<{ title: string; image: string } | null>(null);
 
+  // Prevent background scrolling when modal is open to keep the user on the exact same plane
+  useEffect(() => {
+    if (selectedPoster) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedPoster]);
+
   const research = [
     {
+      id: '01',
       title: 'Multimodal Speech Reconstruction for Bengali Stroke Patients',
-      status: 'Ongoing · Final Year Design Project (Thesis)',
-      description: 'Combining lip movements and audio signals to reconstruct fluent Bengali speech for stroke survivors through multimodal deep learning.',
-      highlights: [
-        'Developed deep learning-based system for Bengali speech reconstruction.',
-        'Multimodal fusion pipeline using lip movement and degraded audio signals.',
-        'Champion position in the FYDP poster competition.',
-        'Poster-ready research with real-world accessibility focus.',
-      ],
+      status: 'FINAL YEAR THESIS (COMPLETED)',
+      description: 'Reconstructing fluent Bengali speech for stroke survivors through the fusion of lip movements and degraded audio signals.',
+      metadata: ['MULTIMODAL AI', 'BENGALI SPEECH', 'DEEP LEARNING'],
+      badge: 'FYDP POSTER COMPETITION · CHAMPION',
       posterImage: '/achieve2/res1.png',
+      layout: 'image-right',
     },
     {
+      id: '02',
       title: 'ShunoBondhu: A Voice Assistive App for Pedal Rickshaw Pullers',
-      status: 'Ongoing Research',
-      description: 'Human-centered computing solution enabling non-literate users to access local services through simple voice commands.',
-      highlights: [
-        'Designing a lightweight voice-assisted mobile application.',
-        'Supports communication and everyday assistance use-cases.',
-        'Built for low-literacy users with simple conversational interactions.',
-        'Focused on field-friendly usability and adoption.',
-      ],
-       posterImage: '/achieve2/res2.png', 
+      status: 'ONGOING RESEARCH',
+      description: 'A human-centered computing solution enabling non-literate users to access local services through simple conversational voice commands.',
+      metadata: ['HCI', 'VOICE ASSISTANCE', 'ACCESSIBILITY'],
+      badge: null,
+      posterImage: '/achieve2/res2.png', 
+      layout: 'image-left',
     },
     {
+      id: '03',
       title: 'SmartBoardVision: Intelligent Classroom Visibility Enhancement',
-      status: 'Ongoing Research',
-      description: 'Deep learning and digital image processing research to improve classroom text visibility and board readability.',
-      highlights: [
-        'Built text visibility pipeline using YOLOv8, EAST, and CRAFT.',
-        'Applied CLAHE and SRGAN for board image enhancement.',
-        'Optimized for intelligent classroom assistance scenarios.',
-        'Combines detection and enhancement in one research flow.',
-      ],
+      status: 'ONGOING RESEARCH',
+      description: 'Digital image processing and deep learning research to dramatically improve classroom text visibility and board readability.',
+      metadata: ['COMPUTER VISION', 'IMAGE PROCESSING', 'SMART CLASSROOMS'],
+      badge: null,
+      posterImage: null, 
+      layout: 'text-only',
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12 },
-    },
-  };
-
-  const itemVariants = {
+  const fadeUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
-    <section id="research" className="bg-[#0a0a0a] pt-4 pb-16 relative overflow-hidden">
-      {/* Ambient Background Glow */}
-      <div className="pointer-events-none absolute top-1/3 left-10 -z-10 h-80 w-80 rounded-full bg-teal-500/10 blur-[130px]" />
+    <section id="research" className="bg-[#050508] pt-8 pb-16 relative overflow-hidden font-sans selection:bg-teal-500/30">
+      
+      {/* Editorial Background Lines */}
+      <div className="absolute inset-0 pointer-events-none flex justify-center opacity-[0.02] z-0">
+        <div className="h-full w-px bg-white mx-[15%]" />
+        <div className="h-full w-px bg-white mx-[15%]" />
+      </div>
 
-      <div className="container-max mx-auto max-w-7xl px-6 relative z-10">
+      <div className="container-max mx-auto max-w-5xl px-6 relative z-10">
         
-        {/* Editorial Section Header */}
+        {/* Simple Centered Title */}
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={containerVariants}
-          className="mb-10 md:mb-12"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+          className="mb-10 flex flex-col items-center justify-center text-center border-b border-white/5 pb-8"
         >
-          <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-teal-300">Research</span>
+          <motion.h2 variants={fadeUp} className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter text-white leading-[0.9]">
+            Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-teal-400 to-emerald-300">Archive</span>
           </motion.h2>
         </motion.div>
 
-        {/* Bento Research Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-        >
-          {research.map((item, idx) => (
-            <motion.div
-              key={idx}
-              variants={itemVariants}
-              className="group relative rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl transition-all duration-500 hover:border-teal-500/40 hover:bg-white/[0.04] shadow-2xl flex flex-col justify-between h-full overflow-hidden"
-            >
-              <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-teal-500/10 blur-xl group-hover:bg-teal-500/20 transition-all duration-500 pointer-events-none" />
-
-              <div>
-                <div className="flex justify-end mb-4">
-                  <span className="inline-flex items-center rounded-full border border-teal-500/30 bg-teal-500/10 px-3.5 py-1 text-[11px] font-bold text-teal-300 tracking-wide text-right">
-                    {item.status}
+        {/* Editorial Research List - Tighter Vertical Spacing */}
+        <div className="space-y-12 md:space-y-16">
+          
+          {/* ─────────────────────────────────────────────────────────
+              01 - THESIS (Image Right)
+          ───────────────────────────────────────────────────────── */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={fadeUp}
+            className="relative flex flex-col lg:flex-row items-center gap-6 md:gap-10"
+          >
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 relative z-10 flex flex-col order-2 lg:order-1 pr-0 lg:pr-6">
+              <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-teal-400 mb-3">
+                {research[0].status}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-[1.1] mb-3">
+                {research[0].title}
+              </h3>
+              <p className="text-sm text-[#999] leading-relaxed font-light mb-5">
+                {research[0].description}
+              </p>
+              
+              {/* Metadata */}
+              <div className="flex flex-wrap gap-2 mb-5">
+                {research[0].metadata.map(tag => (
+                  <span key={tag} className="border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest text-white/50 rounded-sm">
+                    {tag}
                   </span>
-                </div>
+                ))}
+              </div>
 
-                <h3 className="text-2xl font-extrabold text-white tracking-tight mb-3 group-hover:text-teal-300 transition-colors">
-                  {item.title}
-                </h3>
+              {/* Achievement Badge */}
+              <div className="inline-flex self-start items-center gap-2 border border-amber-500/20 bg-amber-500/5 px-3 py-1.5 rounded-sm backdrop-blur-sm">
+                <span className="text-base">🏆</span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-400">
+                  {research[0].badge}
+                </span>
+              </div>
+            </div>
+
+            {/* Poster / Visual */}
+            <div className="w-full lg:w-1/2 relative z-10 order-1 lg:order-2">
+              <div 
+                onClick={() => setSelectedPoster({ title: research[0].title, image: research[0].posterImage! })}
+                className="group relative w-full aspect-[4/3] bg-[#0c0c10] border border-white/10 cursor-pointer overflow-hidden rounded-sm flex items-center justify-center p-1.5"
+              >
+                <img 
+                  src={research[0].posterImage!} 
+                  alt="Thesis Poster Preview" 
+                  className="w-full h-full object-cover object-top opacity-95 transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-500" />
                 
-                <p className="text-sm sm:text-base text-[#a0a0a0] leading-relaxed mb-6 font-normal">
-                  {item.description}
-                </p>
-
-                {item.posterImage && (
-                  <div 
-                    onClick={() => setSelectedPoster({ title: item.title, image: item.posterImage! })}
-                    className="relative mb-6 h-40 w-full cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-black/50 group/img transition-all duration-500 hover:border-teal-500/60 shadow-inner"
-                  >
-                    <img
-                      src={item.posterImage}
-                      alt={item.title}
-                      className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover/img:scale-110 opacity-75 group-hover/img:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
-                    
-                    <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400 backdrop-blur-md">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>Research Poster</span>
-                    </div>
-
-                    <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/10 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-md transition-all group-hover/img:bg-teal-500 group-hover/img:border-teal-500 group-hover/img:shadow-[0_0_15px_rgba(20,184,166,0.6)]">
-                      <span>View Poster</span>
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 3h6v6m-11 5L21 3M9 21H3v-6m11-5L3 21" />
-                      </svg>
-                    </div>
+                {/* Transparent & White Text Modern Button */}
+                <div className="absolute bottom-4 right-4 z-20">
+                  <div className="bg-black/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-2.5 rounded-xl border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
+                    <span>View Poster</span>
+                    <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                   </div>
-                )}
+                </div>
               </div>
+            </div>
+          </motion.div>
 
-              <div className="pt-6 border-t border-white/5 space-y-3">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#707070]">Key Contributions:</p>
-                <ul className="space-y-2.5">
-                  {item.highlights.map((highlight, i) => (
-                    <li key={i} className="text-xs sm:text-sm text-[#a0a0a0] flex items-start gap-2.5 leading-normal">
-                      <span className="h-1.5 w-1.5 rounded-full bg-teal-500 mt-1.5 shrink-0 group-hover:scale-125 transition-transform" />
-                      <span>{highlight}</span>
-                    </li>
+
+          {/* ─────────────────────────────────────────────────────────
+              02 - SHUNOBONDHU (Image Left)
+          ───────────────────────────────────────────────────────── */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={fadeUp}
+            className="relative flex flex-col lg:flex-row items-center gap-6 md:gap-10"
+          >
+            {/* Poster / Visual */}
+            <div className="w-full lg:w-5/12 relative z-10 order-1 lg:order-1">
+               <div 
+                onClick={() => setSelectedPoster({ title: research[1].title, image: research[1].posterImage! })}
+                className="group relative w-full aspect-[4/3] mx-auto bg-[#0c0c10] border border-white/10 cursor-pointer overflow-hidden rounded-sm flex items-center justify-center p-1.5"
+              >
+                <img 
+                  src={research[1].posterImage!} 
+                  alt="ShunoBondhu Poster Preview" 
+                  className="w-full h-full object-cover object-top opacity-95 transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-500" />
+                
+                {/* Transparent & White Text Modern Button */}
+                <div className="absolute bottom-4 right-4 z-20">
+                  <div className="bg-black/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-2.5 rounded-xl border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
+                    <span>View Poster</span>
+                    <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Text Content */}
+            <div className="w-full lg:w-7/12 relative z-10 flex flex-col order-2 lg:order-2 lg:pl-6">
+              <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-[#a855f7] mb-3">
+                {research[1].status}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-[1.1] mb-3">
+                {research[1].title}
+              </h3>
+              <p className="text-sm text-[#999] leading-relaxed font-light mb-5 max-w-xl">
+                {research[1].description}
+              </p>
+              
+              <div className="flex flex-wrap gap-2">
+                {research[1].metadata.map(tag => (
+                  <span key={tag} className="border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest text-white/50 rounded-sm">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+
+          {/* ─────────────────────────────────────────────────────────
+              03 - SMARTBOARDVISION (Text Only)
+          ───────────────────────────────────────────────────────── */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={fadeUp}
+            className="relative flex flex-col items-start"
+          >
+            {/* Text Flow */}
+            <div className="w-full relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-l border-white/10 pl-6">
+              <div className="max-w-2xl pr-4">
+                <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-[#f59e0b] mb-3">
+                  {research[2].status}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-[1.1] mb-3">
+                  {research[2].title}
+                </h3>
+                <p className="text-sm text-[#999] leading-relaxed font-light mb-5">
+                  {research[2].description}
+                </p>
+                <div className="flex flex-wrap gap-2 lg:justify-start shrink-0">
+                  {research[2].metadata.map(tag => (
+                    <span key={tag} className="border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest text-white/50 rounded-sm">
+                      {tag}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            </div>
+          </motion.div>
 
-        {/* FULLSCREEN LIGHTBOX MODAL */}
+        </div>
+
+        {/* ─── FULLSCREEN POSTER LIGHTBOX MODAL (FIXED TO FIT ENTIRE POSTER WITHOUT CROPPING) ─── */}
         <AnimatePresence>
           {selectedPoster && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setSelectedPoster(null)}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-xl sm:p-6 cursor-zoom-out"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl sm:p-6 cursor-zoom-out"
             >
               <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                initial={{ scale: 0.98, opacity: 0, y: 10 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                exit={{ scale: 0.98, opacity: 0, y: 10 }}
+                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative max-h-[92vh] max-w-4xl w-full overflow-hidden rounded-3xl border border-white/20 bg-[#111111] p-3 shadow-[0_0_80px_rgba(0,0,0,0.9)] sm:p-5 cursor-default flex flex-col"
+                className="relative w-full max-w-5xl max-h-[92vh] bg-[#050505] rounded-md border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col cursor-default overflow-hidden"
               >
-                <div className="flex items-center justify-between border-b border-white/10 px-3 pb-3 pt-1">
-                  <div className="flex items-center gap-2.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-                    <span className="text-sm sm:text-base font-extrabold text-white tracking-tight">
-                      {selectedPoster.title} <span className="text-teal-300 font-medium">— Research Poster</span>
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/5 px-5 py-3 bg-[#0a0a0a] shrink-0">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-teal-400">Archived Artifact</span>
+                    <span className="text-sm font-bold text-white tracking-tight leading-tight">
+                      {selectedPoster.title}
                     </span>
                   </div>
                   <button
                     onClick={() => setSelectedPoster(null)}
-                    className="rounded-full bg-white/10 p-2 text-white/70 hover:bg-teal-500 hover:text-white transition-all duration-200"
-                    title="Close preview"
+                    className="rounded-full bg-white/5 p-2 text-white/60 hover:bg-white hover:text-black transition-all duration-300 ml-4 shrink-0"
+                    aria-label="Close"
                   >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
 
-                <div className="mt-4 flex max-h-[76vh] w-full items-center justify-center overflow-hidden rounded-2xl bg-black/60 p-2 sm:p-4 border border-white/5">
+                {/* Inner Image Container - Fully contained, scrollable if tall, absolutely no cropping */}
+                <div className="relative w-full overflow-auto bg-[#08080a] p-4 flex items-center justify-center flex-grow max-h-[82vh]">
                   <img
                     src={selectedPoster.image}
                     alt={selectedPoster.title}
-                    className="max-h-[72vh] max-w-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+                    className="max-w-full max-h-[76vh] object-contain mx-auto shadow-2xl"
                   />
                 </div>
               </motion.div>
