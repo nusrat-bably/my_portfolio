@@ -3,71 +3,61 @@
 import { motion } from 'framer-motion';
 
 export default function ExperienceSection() {
-  const experiences = [
+  const journeySteps = [
     {
       id: '01',
-      title: 'Undergraduate Teaching Assistant',
-      company: 'United International University',
-      department: 'Department of CSE & Data Science',
-      period: 'Oct 2024 — Feb 2026',
-      responsibilityGroups: [
-        {
-          id: '01',
-          name: 'Lab Support',
-          course: 'OOP · DSA',
-          clusters: [
-            'Debugging · Concept Guidance · Problem Solving',
-            'Faculty Collaboration · Lab Preparation',
-          ],
-        },
-        {
-          id: '02',
-          name: 'Student Mentoring',
-          course: 'Academic Guidance',
-          clusters: [
-            'Individual + Group Counselling',
-            'Study Strategies · Performance Improvement',
-          ],
-        },
-        {
-          id: '03',
-          name: 'Assessment & Feedback',
-          course: '',
-          clusters: [
-            'Assignments · Coding Tasks · Class Tests · Grading',
-            'Constructive Feedback · Course Alignment',
-          ],
-        },
-      ],
-      skills: {
-        technical: 'C/C++ · Python · OOP · DSA',
-        teaching: 'Mentoring · Grading · Academic Support · Lab Facilitation',
-      },
+      title: 'Lab Support',
+      subtitle: 'OOP · DSA',
+      details: ['Debugging · Concept Guidance', 'Problem Solving', 'Faculty Collaboration', 'Lab Preparation'],
+      color: '#52b7a4', // Teal
+      bg: 'bg-[#52b7a4]',
+      border: 'border-[#52b7a4]',
+      text: 'text-[#52b7a4]',
+    },
+    {
+      id: '02',
+      title: 'Student Mentoring',
+      subtitle: 'Academic Guidance',
+      details: ['Individual + Group Counselling', 'Study Strategies', 'Performance Improvement'],
+      color: '#a78bfa', // Purple
+      bg: 'bg-[#a78bfa]',
+      border: 'border-[#a78bfa]',
+      text: 'text-[#a78bfa]',
+    },
+    {
+      id: '03',
+      title: 'Assessment & Feedback',
+      subtitle: 'Evaluation',
+      details: ['Assignments · Coding Tasks', 'Class Tests · Grading', 'Constructive Feedback', 'Course Alignment'],
+      color: '#fde047', // Yellow
+      bg: 'bg-[#fde047]',
+      border: 'border-[#fde047]',
+      text: 'text-[#fde047]',
     },
   ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
-    <section id="experience" className="bg-[#050505] pt-12 pb-12 relative overflow-hidden font-sans">
+    // Reduced pt-16 to pt-4 to remove the empty gap at the top
+    <section id="experience" className="bg-[#050508] pt-4 pb-24 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
       
-      {/* Ambient Background Glow */}
-      <div className="pointer-events-none absolute top-1/2 right-10 -z-10 h-80 w-80 rounded-full bg-teal-500/5 blur-[120px]" />
+      {/* Abstract Background Glows */}
+      <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
+        <div className="w-[800px] h-[400px] bg-teal-500/5 blur-[150px] rounded-full" />
+      </div>
 
-      <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-10">
+      <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
         
-        {/* Section Header */}
+        {/* ─── SECTION HEADER ─── */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -75,131 +65,116 @@ export default function ExperienceSection() {
           variants={containerVariants}
           className="mb-10 flex flex-col items-center text-center"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100">
-            Professional <span className="bg-gradient-to-r from-slate-100 via-teal-100 to-teal-500/80 bg-clip-text text-transparent">Journey</span>
+          {/* Matched the title color combination to the reference image */}
+          <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-white">
+            Professional <span className="bg-gradient-to-r from-white via-[#bce0d5] to-[#52b7a4] bg-clip-text text-transparent">Journey</span>
           </motion.h2>
-          <motion.div variants={itemVariants} className="mt-4 h-[1px] w-24 bg-teal-500/50" />
+          <motion.div variants={itemVariants} className="w-12 h-1 bg-[#52b7a4] rounded-full mt-4 opacity-80" />
         </motion.div>
 
-        {/* Experience Panel */}
+        {/* ─── THE ALL-IN-ONE CARD ─── */}
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
+          className="w-full relative rounded-[2rem] bg-[#09090b] border border-white/5 hover:border-[#52b7a4]/40 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_-10px_rgba(82,183,164,0.15)] transition-all duration-500 overflow-hidden flex flex-col group"
         >
-          {experiences.map((exp) => (
-            <motion.div
-              key={exp.id}
-              variants={itemVariants}
-              className="group relative rounded-[24px] border border-white/5 bg-[#0d0d12]/40 p-6 md:p-10 backdrop-blur-sm transition-colors duration-700 hover:border-teal-500/30 hover:bg-[#0d0d12]/60 shadow-xl"
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(20,184,166,0.08),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-[24px]" />
+          
+          {/* Subtle top-right corner glow effect on hover */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[radial-gradient(circle_at_top_right,rgba(82,183,164,0.12),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0" />
 
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-8 lg:gap-12">
+          {/* Main Grid: Left (Role) & Right (Circles) */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[300px_1fr] xl:grid-cols-[340px_1fr] gap-10 lg:gap-14 p-8 sm:p-12 lg:p-14 items-center">
+            
+            {/* LEFT COLUMN: Role Information */}
+            <motion.div variants={itemVariants} className="flex flex-col text-center lg:text-left">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tighter leading-[1.1] mb-5">
+                Undergraduate Teaching Assistant
+              </h3>
+
+              
+              <div className="flex flex-col items-center lg:items-start justify-center gap-1.5">
+                <span className="text-[12px] sm:text-[13px] text-slate-400">
+                  Dept of CSE & Data Science
+                </span>
+                <span className="text-[12px] sm:text-[13px] font-bsold tracking-wide text-[#52b7a4] mt-1.5">
+                  Oct 2024 — Feb 2026
+                </span>
+                <span className="text-[14px] sm:text-[15px] font-medium text-slate-200">
+                  United International University
+                </span>
+
                 
-                {/* Left Column */}
-                <div className="flex flex-col">
-                  <span className="text-xs font-mono font-medium text-teal-500/30 group-hover:text-teal-500/60 transition-colors duration-500 block mb-4">
-                    {exp.id}
-                  </span>
-                  
-                  <h3 className="text-xl lg:text-2xl font-extrabold text-white tracking-tight uppercase leading-snug mb-4">
-                    {exp.title}
-                  </h3>
-                  
-                  <div className="space-y-1 mb-6 lg:mb-0">
-                    <p className="text-[14px] font-medium text-slate-300">
-                      {exp.company}
-                    </p>
-                    <p className="text-[13px] font-light text-slate-400">
-                      {exp.department}
-                    </p>
-                  </div>
-
-                  <div className="pt-6 border-t border-white/10 mt-auto hidden lg:block">
-                    <span className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 group-hover:text-slate-300 transition-colors duration-500">
-                      {exp.period}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Right Column - Responsibilities */}
-                <div className="flex flex-col gap-8 lg:pt-1">
-                  <p className="text-[14px] text-slate-400 font-light italic mb-1">
-                    Supported students across laboratory learning, academic development, and assessment.
-                  </p>
-
-                  <div className="space-y-0 relative border-l border-white/5 pl-6 ml-1">
-                    {exp.responsibilityGroups.map((group, index) => (
-                      <div key={group.id} className="relative pb-8 last:pb-0">
-                        <div className="absolute -left-[30px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-[#0d0d12] bg-slate-700 group-hover:bg-teal-500 group-hover:border-teal-900/50 transition-colors duration-500 z-10" />
-                        
-                        <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 items-baseline">
-                          <div className="flex items-baseline gap-2.5 col-span-2 sm:col-span-1">
-                            <span className="text-lg font-mono font-bold text-teal-500/30 group-hover:text-teal-400 transition-colors duration-500">
-                              {group.id}
-                            </span>
-                            <h4 className="text-base font-bold text-white tracking-tight">
-                              {group.name}
-                            </h4>
-                          </div>
-
-                          {group.course && (
-                            <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-500/80 sm:justify-self-end sm:text-right col-span-2 sm:col-span-1 mt-1 sm:mt-0">
-                              {group.course}
-                            </span>
-                          )}
-
-                          <div className="col-span-2 space-y-1 mt-2 pl-7 sm:pl-8">
-                            {group.clusters.map((cluster, i) => (
-                              <p key={i} className="text-[14px] leading-relaxed text-slate-300 font-light group-hover:text-slate-100 transition-colors duration-500">
-                                {cluster}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        {index !== exp.responsibilityGroups.length - 1 && (
-                          <div className="absolute left-6 right-0 bottom-4 h-[1px] bg-white/[0.03]" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="pt-6 border-t border-white/10 mt-2 lg:hidden">
-                    <span className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 group-hover:text-slate-300 transition-colors duration-500">
-                      {exp.period}
-                    </span>
-                  </div>
-                </div>
               </div>
+            </motion.div>
 
-              {/* Bottom Metadata */}
-              <div className="relative z-10 mt-10 pt-6 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[35%_1fr] gap-8 lg:gap-12">
-                <div className="flex flex-col gap-1.5 relative">
-                  <div className="absolute -left-6 top-0 bottom-0 w-[1px] bg-white/5 hidden lg:block"/>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 pl-0 lg:pl-6">
-                    Technical
-                  </span>
-                  <span className="text-[13px] font-medium text-slate-300 group-hover:text-white transition-colors duration-500 pl-0 lg:pl-6">
-                    {exp.skills.technical}
-                  </span>
-                </div>
-                
-                <div className="flex flex-col gap-1.5 relative">
-                  <div className="absolute -left-6 top-0 bottom-0 w-[1px] bg-teal-500/10 hidden lg:block"/>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-400/80 pl-0 lg:pl-6">
-                    Teaching
-                  </span>
-                  <span className="text-[13px] font-medium text-slate-300 group-hover:text-white transition-colors duration-500 pl-0 lg:pl-6">
-                    {exp.skills.teaching}
-                  </span>
-                </div>
+            {/* RIGHT COLUMN: The Connected Circles */}
+            <motion.div variants={itemVariants} className="relative w-full mt-8 lg:mt-0">
+              
+              {/* Connecting Lines */}
+              {/* Desktop Horizontal Line */}
+              <div className="absolute top-[2rem] left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent hidden sm:block z-0" />
+              {/* Mobile Vertical Line */}
+              <div className="absolute left-[2rem] top-[10%] bottom-[10%] w-px bg-gradient-to-b from-transparent via-white/10 to-transparent sm:hidden z-0" />
+
+              {/* Grid Layout for Circles */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-4 lg:gap-6 relative z-10">
+                {journeySteps.map((step) => (
+                  <div
+                    key={step.id}
+                    className="flex flex-row sm:flex-col items-center sm:items-start text-left sm:text-center group/circle"
+                  >
+                    {/* Circle */}
+                    <div className="sm:mx-auto relative shrink-0">
+                      {/* Hover Glow */}
+                      <div className={`absolute inset-0 ${step.bg} blur-md opacity-0 group-hover/circle:opacity-20 transition-opacity duration-500 rounded-full`} />
+                      
+                      <div className={`w-16 h-16 rounded-full bg-[#050508] border-[1.5px] ${step.border} flex items-center justify-center relative z-10 shadow-lg group-hover/circle:scale-105 transition-transform duration-500`}>
+                        <span className={`text-lg font-light tracking-widest ${step.text}`}>
+                          {step.id}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Text Content */}
+                    <div className="ml-6 sm:ml-0 sm:mt-6 flex flex-col items-start sm:items-center w-full">
+                      <h4 className="text-[13px] lg:text-[14px] font-black text-white uppercase tracking-[0.05em] mb-1">
+                        {step.title}
+                      </h4>
+                      <span className={`text-[9px] lg:text-[10px] font-bold uppercase tracking-widest ${step.text} mb-3 block`}>
+                        {step.subtitle}
+                      </span>
+                      
+                      <div className="flex flex-col items-start sm:items-center text-[#888] space-y-1">
+                        {step.details.map((detail, i) => (
+                          <p key={i} className="text-[10px] lg:text-[11px] leading-tight font-medium group-hover/circle:text-slate-300 transition-colors">
+                            {detail}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
 
             </motion.div>
-          ))}
+          </div>
+
+          {/* BOTTOM FOOTER: Skills & Focus */}
+          <div className="relative z-10 border-t border-white/5 bg-white/[0.01] px-8 py-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-3">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              Core Focus:
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[10px] font-bold uppercase tracking-[0.1em] text-slate-300">
+              <span className="hover:text-teal-400 transition-colors cursor-default">C/C++</span>
+              <span className="hover:text-teal-400 transition-colors cursor-default">Python</span>
+              <span className="hover:text-teal-400 transition-colors cursor-default">OOP & DSA</span>
+              <span className="hover:text-teal-400 transition-colors cursor-default">Mentorship</span>
+              <span className="hover:text-teal-400 transition-colors cursor-default">Lab Facilitation</span>
+            </div>
+          </div>
+
         </motion.div>
 
       </div>

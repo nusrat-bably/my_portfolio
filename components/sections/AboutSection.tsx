@@ -48,10 +48,17 @@ export default function AboutSection() {
   };
 
   return (
-    <section id="about" className="bg-[#050505] pt-2 pb-16 relative overflow-hidden font-sans">
+    // Reduced pt-2 to pt-0 to remove empty gaps before the section
+    <section id="about" className="bg-[#050505] pt-0 pb-16 relative overflow-hidden font-sans">
       
+      {/* Hide scrollbar for the mobile swipeable container */}
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
       {/* Ambient background glow */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-[350px] w-[350px] rounded-full bg-teal-500/5 blur-[120px]" />
+      <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-[300px] w-[300px] rounded-full bg-teal-500/5 blur-[120px]" />
 
       <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-10">
         
@@ -61,49 +68,60 @@ export default function AboutSection() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={containerVariants}
-          className="mb-6 text-center"
+          className="mb-5 text-center" // Reduced from mb-6 to mb-5
         >
           <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100">
             Who I Am Beyond <span className="bg-gradient-to-r from-slate-100 via-teal-100 to-teal-500/80 bg-clip-text text-transparent">Tech</span>
           </motion.h2>
         </motion.div>
 
-        {/* Sequential Horizontal Chevron Process Flow (Same Teal Tone, Compact Size, Interlocking) */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          variants={containerVariants}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-1 md:gap-0 mb-14 max-w-5xl mx-auto"
-        >
-          {aboutCards.map((card, index) => {
-            const clipPathStyle = 
-              index === 0 ? 'polygon(0% 0%, calc(100% - 24px) 0%, 100% 50%, calc(100% - 24px) 100%, 0% 100%)' :
-              index === 1 ? 'polygon(0% 0%, calc(100% - 24px) 0%, 100% 50%, calc(100% - 24px) 100%, 0% 100%, 24px 50%)' :
-              'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 24px 50%)';
+        {/* 
+          Sequential Horizontal Chevron Process Flow 
+          - Wrapped in an overflow-x-auto container to ensure mobile looks EXACTLY like desktop (just swipeable).
+          - Reduced max-width and internal paddings to decrease card sizes.
+        */}
+        <div className="w-full overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={containerVariants}
+            // Force 3 columns universally. On mobile, it scrolls horizontally. Reduced max-w to 4xl to shrink size.
+            className="grid grid-cols-3 min-w-[700px] md:min-w-0 max-w-4xl mx-auto gap-0 mb-8" 
+          >
+            {aboutCards.map((card, index) => {
+              // Reduced chevron indent size from 24px to 16px to save space and fit the smaller cards better
+              const clipPathStyle = 
+                index === 0 ? 'polygon(0% 0%, calc(100% - 16px) 0%, 100% 50%, calc(100% - 16px) 100%, 0% 100%)' :
+                index === 1 ? 'polygon(0% 0%, calc(100% - 16px) 0%, 100% 50%, calc(100% - 16px) 100%, 0% 100%, 16px 50%)' :
+                'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 16px 50%)';
 
-            return (
-              <motion.div
-                key={card.title}
-                variants={itemVariants}
-                style={{ clipPath: clipPathStyle }}
-                className={`relative bg-gradient-to-r from-teal-950 via-teal-900 to-teal-950/90 border border-teal-500/40 py-5 px-6 shadow-[0_6px_25px_rgba(0,0,0,0.4)] flex flex-col justify-center transition-all duration-300 hover:brightness-110 ${
-                  index === 0 ? 'lg:pl-6 lg:pr-10' : index === 1 ? 'lg:pl-10 lg:pr-10' : 'lg:pl-10 lg:pr-6'
-                }`}
-              >
-                <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight mb-1">
-                    {card.title}
-                  </h3>
+              return (
+                <motion.div
+                  key={card.title}
+                  variants={itemVariants}
+                  style={{ clipPath: clipPathStyle }}
+                  // Reduced vertical padding (py-3) and adjusted horizontal padding to account for the 16px chevron
+                  className={`relative bg-gradient-to-r from-teal-950 via-teal-900 to-teal-950/90 border border-teal-500/40 py-3 shadow-[0_6px_25px_rgba(0,0,0,0.4)] flex flex-col justify-center transition-all duration-300 hover:brightness-110 ${
+                    index === 0 ? 'pl-5 pr-8' : index === 1 ? 'pl-8 pr-8' : 'pl-8 pr-5'
+                  }`}
+                >
+                  <div>
+                    {/* Slightly reduced title font size */}
+                    <h3 className="text-sm sm:text-base font-bold text-white tracking-tight mb-1">
+                      {card.title}
+                    </h3>
 
-                  <p className="text-[11.5px] sm:text-[12px] leading-relaxed text-slate-200 font-light">
-                    {card.description}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                    {/* Slightly reduced description font size */}
+                    <p className="text-[10px] sm:text-[11px] leading-relaxed text-slate-200 font-light">
+                      {card.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
 
         {/* Hobbies & Interests - Unboxed Layout */}
         <motion.div
