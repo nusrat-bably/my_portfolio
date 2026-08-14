@@ -24,226 +24,253 @@ export default function ResearchSection() {
       title: 'Multimodal Speech Reconstruction for Bengali Stroke Patients',
       status: 'FINAL YEAR THESIS (COMPLETED)',
       description: 'Reconstructing fluent Bengali speech for stroke survivors through the fusion of lip movements and degraded audio signals.',
+      supervisor: {
+        name: 'Dr. Mohammad Nurul Huda',
+        link: 'https://cse.uiu.ac.bd/faculty/mnh/',
+      },
       metadata: ['MULTIMODAL AI', 'BENGALI SPEECH', 'DEEP LEARNING'],
       badge: 'FYDP POSTER COMPETITION · CHAMPION',
       posterImage: '/achieve2/res1.png',
-      layout: 'image-right',
     },
     {
       id: '02',
       title: 'ShunoBondhu: A Voice Assistive App for Pedal Rickshaw Pullers',
       status: 'ONGOING RESEARCH',
       description: 'A human-centered computing solution enabling non-literate users to access local services through simple conversational voice commands.',
+      supervisor: {
+        name: 'Dr. Novia Nurain',
+        link: 'https://cse.buet.ac.bd/faculty/faculty_detail/nnurain',
+      },
       metadata: ['HCI', 'VOICE ASSISTANCE', 'ACCESSIBILITY'],
       badge: null,
       posterImage: '/achieve2/res2.png', 
-      layout: 'image-left',
     },
     {
       id: '03',
       title: 'SmartBoardVision: Intelligent Classroom Visibility Enhancement',
       status: 'ONGOING RESEARCH',
       description: 'Digital image processing and deep learning research to dramatically improve classroom text visibility and board readability.',
+      supervisor: null,
       metadata: ['COMPUTER VISION', 'IMAGE PROCESSING', 'SMART CLASSROOMS'],
       badge: null,
       posterImage: null, 
-      layout: 'text-only',
     },
   ];
 
-  const fadeUp = {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
   };
 
   return (
-    <section id="research" className="bg-[#050508] pt-8 pb-16 relative overflow-hidden font-sans selection:bg-teal-500/30">
+    <section id="research" className="bg-[#050505] pt-12 pb-16 relative overflow-hidden font-sans">
       
-      {/* Editorial Background Lines */}
-      <div className="absolute inset-0 pointer-events-none flex justify-center opacity-[0.02] z-0">
-        <div className="h-full w-px bg-white mx-[15%]" />
-        <div className="h-full w-px bg-white mx-[15%]" />
-      </div>
-
-      <div className="container-max mx-auto max-w-5xl px-6 relative z-10">
+      {/* Container aligned to max-w-7xl matching all previous sections */}
+      <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-10">
         
-        {/* Simple Centered Title */}
+        {/* CENTERED SECTION HEADER WITH GRADIENT TITLE */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-          className="mb-10 flex flex-col items-center justify-center text-center border-b border-white/5 pb-8"
+          variants={containerVariants}
+          className="mb-12 flex flex-col items-center text-center"
         >
-          <motion.h2 variants={fadeUp} className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter text-white leading-[0.9]">
-            Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-200 via-teal-400 to-emerald-300">Archive</span>
+          <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100">
+            Research <span className="bg-gradient-to-r from-slate-100 via-teal-100 to-teal-500/80 bg-clip-text text-transparent">Archive</span>
           </motion.h2>
+          <motion.div variants={itemVariants} className="mt-4 h-[1px] w-24 bg-teal-500/50" />
         </motion.div>
 
-        {/* Editorial Research List - Tighter Vertical Spacing */}
-        <div className="space-y-12 md:space-y-16">
-          
-          {/* ─────────────────────────────────────────────────────────
-              01 - THESIS (Image Right)
-          ───────────────────────────────────────────────────────── */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={fadeUp}
-            className="relative flex flex-col lg:flex-row items-center gap-6 md:gap-10"
-          >
-            {/* Text Content */}
-            <div className="w-full lg:w-1/2 relative z-10 flex flex-col order-2 lg:order-1 pr-0 lg:pr-6">
-              <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-teal-400 mb-3">
-                {research[0].status}
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-[1.1] mb-3">
-                {research[0].title}
-              </h3>
-              <p className="text-sm text-[#999] leading-relaxed font-light mb-5">
-                {research[0].description}
-              </p>
-              
-              {/* Metadata */}
-              <div className="flex flex-wrap gap-2 mb-5">
-                {research[0].metadata.map(tag => (
-                  <span key={tag} className="border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest text-white/50 rounded-sm">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+        {/* OVERLAPPING GRID RESEARCH LIST - Matching Projects Layout */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="space-y-16 md:space-y-20"
+        >
+          {research.map((item, idx) => {
+            const isEven = idx % 2 === 0;
+            const hasPoster = Boolean(item.posterImage);
 
-              {/* Achievement Badge */}
-              <div className="inline-flex self-start items-center gap-2 border border-amber-500/20 bg-amber-500/5 px-3 py-1.5 rounded-sm backdrop-blur-sm">
-                <span className="text-base">🏆</span>
-                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-400">
-                  {research[0].badge}
-                </span>
-              </div>
-            </div>
+            if (!hasPoster) {
+              return (
+                <motion.div 
+                  key={idx}
+                  variants={itemVariants}
+                  className="relative grid grid-cols-12 gap-0 items-center"
+                >
+                  <div className="col-span-10 col-start-2 bg-[#112240] p-6 sm:p-8 md:p-10 rounded-md shadow-xl text-left relative z-20">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-teal-400 font-mono text-[11px] sm:text-[13px]">
+                        {item.status}
+                      </span>
+                      <span className="font-mono text-xs text-teal-400/50">{item.id}</span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-200 mb-4">
+                      {item.title}
+                    </h3>
+                    <p className="text-slate-300 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed mb-6">
+                      {item.description}
+                    </p>
+                    <ul className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-[11px] sm:text-[13px] text-slate-400">
+                      {item.metadata.map((tag, i) => (
+                        <li key={i} className="whitespace-nowrap border border-white/10 px-2.5 py-1 rounded-sm bg-black/20">
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    {/* Supervisor (If added later to text-only items) */}
+                    {item.supervisor && (
+                      <div className="mt-4 pointer-events-auto">
+                        <p className="text-[12px] sm:text-[13px] text-slate-400 font-light">
+                          Supervisor:{' '}
+                          <a 
+                            href={item.supervisor.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-slate-300 hover:text-teal-400 transition-colors font-medium inline-flex items-center gap-1 group/link"
+                          >
+                            {item.supervisor.name}
+                            <svg className="w-3.5 h-3.5 text-teal-400 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </a>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            }
 
-            {/* Poster / Visual */}
-            <div className="w-full lg:w-1/2 relative z-10 order-1 lg:order-2">
-              <div 
-                onClick={() => setSelectedPoster({ title: research[0].title, image: research[0].posterImage! })}
-                className="group relative w-full aspect-[4/3] bg-[#0c0c10] border border-white/10 cursor-pointer overflow-hidden rounded-sm flex items-center justify-center p-1.5"
+            return (
+              <motion.div 
+                key={idx}
+                variants={itemVariants}
+                className="relative grid grid-cols-12 gap-0 items-center"
               >
-                <img 
-                  src={research[0].posterImage!} 
-                  alt="Thesis Poster Preview" 
-                  className="w-full h-full object-cover object-top opacity-95 transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-500" />
                 
-                {/* Transparent & White Text Modern Button */}
-                <div className="absolute bottom-4 right-4 z-20">
-                  <div className="bg-black/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-2.5 rounded-xl border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
-                    <span>View Poster</span>
-                    <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                {/* ─── POSTER IMAGE CONTAINER ─── */}
+                <div 
+                  className={`relative col-span-7 row-span-full z-10 group ${
+                    isEven ? 'col-start-1' : 'col-start-6'
+                  }`}
+                >
+                  <div 
+                    onClick={() => setSelectedPoster({ title: item.title, image: item.posterImage! })}
+                    className="block relative aspect-[16/10] rounded-md overflow-hidden bg-[#0f1110] shadow-lg group-hover:shadow-2xl z-10 transition-shadow duration-300 cursor-pointer"
+                  >
+                    {/* Teal Tint Overlay - disappears on hover */}
+                    <div className="absolute inset-0 bg-teal-900/20 mix-blend-multiply transition-opacity duration-300 ease-out group-hover:opacity-0 z-10 pointer-events-none" />
+                    
+                    <img
+                      src={item.posterImage!}
+                      alt={item.title}
+                      className="w-full h-full block object-cover object-top transform transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+
+                    {/* View Poster Indicator */}
+                    <div className="absolute bottom-4 right-4 z-20">
+                      <div className="bg-black/40 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.2em] px-3.5 py-2 rounded-lg border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
+                        <span>View Poster</span>
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </motion.div>
 
+                {/* ─── EDITORIAL TEXT / CONTENT ─── */}
+                <div 
+                  className={`relative col-span-6 row-span-full flex flex-col justify-center z-20 pointer-events-none items-start text-left max-w-xl ${
+                    isEven 
+                      ? 'col-start-7 items-end text-right' 
+                      : 'col-start-1'
+                  }`}
+                >
+                  {/* Status (Overline) */}
+                  <p className="text-teal-400 font-mono text-[10px] sm:text-[12px] mb-1.5 pointer-events-auto">
+                    {item.status}
+                  </p>
+                  
+                  {/* Research Title with controlled line break so 'for' stays cleanly on the second line */}
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-200 mb-3 sm:mb-4 pointer-events-auto leading-snug">
+                    {idx === 0 ? (
+                      <>Multimodal Speech Reconstruction <br className="hidden sm:inline" />for Bengali Stroke Patients</>
+                    ) : idx === 1 ? (
+                      <>ShunoBondhu: A Voice Assistive App <br className="hidden sm:inline" />for Pedal Rickshaw Pullers</>
+                    ) : (
+                      item.title
+                    )}
+                  </h3>
 
-          {/* ─────────────────────────────────────────────────────────
-              02 - SHUNOBONDHU (Image Left)
-          ───────────────────────────────────────────────────────── */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={fadeUp}
-            className="relative flex flex-col lg:flex-row items-center gap-6 md:gap-10"
-          >
-            {/* Poster / Visual */}
-            <div className="w-full lg:w-5/12 relative z-10 order-1 lg:order-1">
-               <div 
-                onClick={() => setSelectedPoster({ title: research[1].title, image: research[1].posterImage! })}
-                className="group relative w-full aspect-[4/3] mx-auto bg-[#0c0c10] border border-white/10 cursor-pointer overflow-hidden rounded-sm flex items-center justify-center p-1.5"
-              >
-                <img 
-                  src={research[1].posterImage!} 
-                  alt="ShunoBondhu Poster Preview" 
-                  className="w-full h-full object-cover object-top opacity-95 transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-500" />
-                
-                {/* Transparent & White Text Modern Button */}
-                <div className="absolute bottom-4 right-4 z-20">
-                  <div className="bg-black/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-2.5 rounded-xl border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
-                    <span>View Poster</span>
-                    <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                  {/* Dark Blue Floating Description Box */}
+                  <div className="bg-[#112240] p-4 sm:p-6 md:p-7 rounded-md shadow-xl text-slate-300 text-[12px] sm:text-[13px] md:text-[14px] leading-relaxed mb-4 sm:mb-5 w-full pointer-events-auto transition-shadow hover:shadow-2xl">
+                    {item.description}
                   </div>
+
+                  {/* Metadata / Tags */}
+                  <ul className={`flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] sm:text-[12px] text-slate-400 mb-4 pointer-events-auto justify-start ${
+                    isEven ? 'justify-end' : ''
+                  }`}>
+                    {item.metadata.map((tag, i) => (
+                      <li key={i} className="whitespace-nowrap">
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Optional Badge */}
+                  {item.badge && (
+                    <div className={`pointer-events-auto inline-flex items-center gap-2 border border-amber-500/20 bg-amber-500/5 px-3 py-1.5 rounded-sm backdrop-blur-sm mb-4 justify-start ${
+                      isEven ? 'justify-end' : ''
+                    }`}>
+                      <span className="text-sm">🏆</span>
+                      <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] text-amber-400">
+                        {item.badge}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Supervisor Line - Moved to End with teal icon color */}
+                  {item.supervisor && (
+                    <div className={`pointer-events-auto flex items-center ${isEven ? 'justify-end' : 'justify-start'} w-full`}>
+                      <p className="text-[12px] sm:text-[13px] text-slate-400 font-light">
+                        Supervisor:{' '}
+                        <a 
+                          href={item.supervisor.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-slate-300 hover:text-teal-400 transition-colors font-medium inline-flex items-center gap-1 group/link"
+                        >
+                          {item.supervisor.name}
+                          <svg className="w-3.5 h-3.5 text-teal-400 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      </p>
+                    </div>
+                  )}
+
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
 
-            {/* Text Content */}
-            <div className="w-full lg:w-7/12 relative z-10 flex flex-col order-2 lg:order-2 lg:pl-6">
-              <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-[#a855f7] mb-3">
-                {research[1].status}
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-[1.1] mb-3">
-                {research[1].title}
-              </h3>
-              <p className="text-sm text-[#999] leading-relaxed font-light mb-5 max-w-xl">
-                {research[1].description}
-              </p>
-              
-              <div className="flex flex-wrap gap-2">
-                {research[1].metadata.map(tag => (
-                  <span key={tag} className="border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest text-white/50 rounded-sm">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-
-          {/* ─────────────────────────────────────────────────────────
-              03 - SMARTBOARDVISION (Text Only)
-          ───────────────────────────────────────────────────────── */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={fadeUp}
-            className="relative flex flex-col items-start"
-          >
-            {/* Text Flow */}
-            <div className="w-full relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-l border-white/10 pl-6">
-              <div className="max-w-2xl pr-4">
-                <span className="inline-block text-[9px] font-bold uppercase tracking-[0.3em] text-[#f59e0b] mb-3">
-                  {research[2].status}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-[1.1] mb-3">
-                  {research[2].title}
-                </h3>
-                <p className="text-sm text-[#999] leading-relaxed font-light mb-5">
-                  {research[2].description}
-                </p>
-                <div className="flex flex-wrap gap-2 lg:justify-start shrink-0">
-                  {research[2].metadata.map(tag => (
-                    <span key={tag} className="border border-white/10 px-2 py-1 text-[8px] uppercase tracking-widest text-white/50 rounded-sm">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-        </div>
-
-        {/* ─── FULLSCREEN POSTER LIGHTBOX MODAL (FIXED TO FIT ENTIRE POSTER WITHOUT CROPPING) ─── */}
+        {/* ─── FULLSCREEN POSTER LIGHTBOX MODAL ─── */}
         <AnimatePresence>
           {selectedPoster && (
             <motion.div
@@ -281,7 +308,7 @@ export default function ResearchSection() {
                   </button>
                 </div>
 
-                {/* Inner Image Container - Fully contained, scrollable if tall, absolutely no cropping */}
+                {/* Inner Image Container */}
                 <div className="relative w-full overflow-auto bg-[#08080a] p-4 flex items-center justify-center flex-grow max-h-[82vh]">
                   <img
                     src={selectedPoster.image}

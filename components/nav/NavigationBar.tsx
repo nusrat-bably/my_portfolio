@@ -1,13 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function NavigationBar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
 
   if (pathname?.startsWith('/fuel')) {
     return null;
@@ -21,7 +19,7 @@ export default function NavigationBar() {
     { label: 'Skills', href: '/#skills' },
     { label: 'Awards', href: '/#achievements' },
     { label: 'Education', href: '/#education' },
-    { label: 'References', href: '/#references' },
+    { label: 'References', href: '/#references', hideMobile: true },
   ];
 
   return (
@@ -29,16 +27,19 @@ export default function NavigationBar() {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-40 pointer-events-none pt-4 px-4 md:px-8"
+      // FIXED: Sitting 100% flush at the very top with zero upper dead space
+      className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-0 sm:px-4 md:px-8 pt-0"
     >
-      <nav className="pointer-events-auto w-full max-w-7xl mx-auto rounded-2xl border border-white/5 bg-[#050505]/85 backdrop-blur-2xl transition-colors duration-300">
+      {/* Premium Dark Glassmorphism container */}
+      <nav className="pointer-events-auto w-full max-w-7xl mx-auto sm:rounded-2xl border-b sm:border border-white/10 bg-[#050505]/75 backdrop-blur-2xl transition-colors duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
         
-        <div className="flex w-full items-center justify-between px-4 md:px-6 py-2">
+        <div className="flex w-full items-center justify-between px-4 sm:px-6 py-2.5">
           
+          {/* ─── LEFT: EXACT ORIGINAL WORKSTATION & PEEKING CAT ─── */}
           <Link 
             href="/#hero" 
             id="workstation-anchor" 
-            className="relative flex items-center justify-start h-[32px] w-[110px] md:h-[38px] md:w-[130px] shrink-0 group overflow-visible"
+            className="relative flex items-center justify-start h-[30px] w-[100px] md:h-[36px] md:w-[120px] shrink-0 group overflow-visible"
           >
             <span className="sr-only">Nusrat Jahan Bably - Home</span>
             
@@ -74,13 +75,10 @@ export default function NavigationBar() {
               <rect x="22" y="32" width="45" height="16" fill="#cbd5e1" opacity="0.7" />
               <rect x="70" y="32" width="28" height="16" fill="#86efac" opacity="0.5" />
 
-              {/* RIGHT MONITOR (Code Editor UI - CHANGED TO DARK THEME INSTEAD OF LIGHT) */}
+              {/* RIGHT MONITOR (Code Editor UI) */}
               <rect x="175" y="52" width="10" height="12" fill="#e2e8f0" stroke="#474554" strokeWidth="1" />
               <rect x="165" y="63" width="30" height="2" fill="#cbd5e1" stroke="#474554" strokeWidth="1" />
-              
-              {/* Outer Casing changed to Dark Charcoal */}
               <rect x="135" y="11" width="90" height="42" rx="2" fill="#18181b" stroke="#474554" strokeWidth="1.2" />
-              {/* Inner Screen */}
               <rect x="138" y="14" width="84" height="36" fill="#1e1e24" stroke="#474554" strokeWidth="0.8" />
               <rect x="138" y="14" width="15" height="36" fill="#27272a" />
               
@@ -102,6 +100,16 @@ export default function NavigationBar() {
               <rect x="182" y="20" width="30" height="24" fill="#27272a" rx="1" stroke="#3f3f46" strokeWidth="0.8" />
               <line x1="186" y1="25" x2="198" y2="25" stroke="#e2e8f0" strokeWidth="1.2" strokeLinecap="round" />
               <line x1="186" y1="31" x2="208" y2="31" stroke="#e2e8f0" strokeWidth="1.2" strokeLinecap="round" />
+
+              {/* RESTORED: PEEKING CAT COMPANION */}
+              <g transform="translate(108, 36) scale(0.65)">
+                <path d="M 3 12 L -2 -2 L 10 7 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M 27 12 L 32 -2 L 20 7 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M 0 35 C 0 5, 30 5, 30 35 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" />
+                <circle cx="9" cy="16" r="2.2" fill="#0a0a0a" />
+                <circle cx="21" cy="16" r="2.2" fill="#0a0a0a" />
+                <path d="M 12 21 C 12 24, 18 24, 18 21" fill="none" stroke="#45D3B5" strokeWidth="2" strokeLinecap="round" />
+              </g>
 
               {/* PASTEL MECHANICAL KEYBOARD */}
               <rect x="75" y="55" width="90" height="10" rx="1.5" fill="#f8fafc" stroke="#474554" strokeWidth="1" />
@@ -168,65 +176,33 @@ export default function NavigationBar() {
             </svg>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+          {/* Swipeable Links Row (References hidden on mobile to fit nicely) */}
+          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 rounded-full text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:bg-teal-500/5 transition-all duration-300 whitespace-nowrap"
+                className={`px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:bg-teal-500/5 transition-all duration-300 whitespace-nowrap ${
+                  item.hideMobile ? 'hidden lg:inline-block' : ''
+                }`}
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <a
               href="/cv/NusratJahanBably_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/30 bg-teal-500/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-teal-300/90 backdrop-blur-md transition-all duration-300 hover:border-teal-400/60 hover:bg-teal-500/10 hover:text-teal-100"
+              className="inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/30 bg-teal-500/5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-teal-300/90 backdrop-blur-md transition-all duration-300 hover:border-teal-400/60 hover:bg-teal-500/10 hover:text-teal-100 whitespace-nowrap"
             >
-              <span>Download CV</span>
+              <span className="hidden sm:inline">Download CV</span>
+              <span className="sm:hidden">CV</span>
             </a>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              type="button"
-              className="lg:hidden flex items-center gap-2 px-3.5 py-2 rounded-full border border-teal-500/30 bg-teal-500/5 text-teal-300/90 text-xs font-semibold uppercase tracking-wider focus:outline-none transition-colors hover:bg-teal-500/10"
-              aria-label="Toggle Section Menu"
-            >
-              <span>Menu</span>
-              <svg className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
           </div>
         </div>
-
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="lg:hidden border-t border-white/5 bg-[#050505]/95 backdrop-blur-2xl px-6 py-6 rounded-b-2xl"
-            >
-              <div className="grid grid-cols-2 gap-2.5">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:border-teal-500/20 hover:bg-teal-500/5 transition-all text-center flex items-center justify-center"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
     </motion.header>
   );
