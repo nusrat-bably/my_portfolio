@@ -20,6 +20,7 @@ export default function NavigationBar() {
     { label: 'Awards', href: '/#achievements' },
     { label: 'Education', href: '/#education' },
     { label: 'References', href: '/#references' },
+    { label: 'Rest Point', href: '/#guestbook' },
   ];
 
   return (
@@ -30,7 +31,7 @@ export default function NavigationBar() {
       className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-0 sm:px-4 md:px-8 pt-0"
     >
       {/* Premium Dark Glassmorphism container */}
-      <nav className="pointer-events-auto w-full max-w-7xl mx-auto sm:rounded-2xl border-b sm:border border-white/10 bg-[#050505]/75 backdrop-blur-2xl transition-colors duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+      <nav className="pointer-events-auto w-full max-w-7xl mx-auto sm:rounded-2xl border-b sm:border border-white/10 bg-[#050505]/75 backdrop-blur-2xl transition-colors duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden">
 
         <div className="flex w-full items-center justify-between px-4 sm:px-6 py-2.5">
 
@@ -100,8 +101,8 @@ export default function NavigationBar() {
               <line x1="186" y1="25" x2="198" y2="25" stroke="#e2e8f0" strokeWidth="1.2" strokeLinecap="round" />
               <line x1="186" y1="31" x2="208" y2="31" stroke="#e2e8f0" strokeWidth="1.2" strokeLinecap="round" />
 
-              {/* PEEKING CAT COMPANION */}
-              <g transform="translate(108, 36) scale(0.65)">
+              {/* PEEKING CAT COMPANION (Adjusted down to stay inside navbar bounds) */}
+              <g transform="translate(108, 41) scale(0.65)">
                 <path d="M 3 12 L -2 -2 L 10 7 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M 27 12 L 32 -2 L 20 7 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M 0 35 C 0 5, 30 5, 30 35 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" />
@@ -175,7 +176,7 @@ export default function NavigationBar() {
             </svg>
           </Link>
 
-          {/* Swipeable Links Row - Matching Desktop layout perfectly */}
+          {/* Swipeable Links Row */}
           <div className="flex items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-2">
             {navItems.map((item) => (
               <Link
@@ -188,22 +189,16 @@ export default function NavigationBar() {
             ))}
           </div>
 
-          {/* Glassy, Glowy CV Button - Now with a thick, modern sans-serif font! */}
+          {/* Glassy, Glowy CV Button */}
           <div className="flex items-center shrink-0 ml-1">
             <a
               href="/cv/NusratJahanBably_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              // Applied font-sans, font-extrabold, and tracking-tight to perfectly match the screenshot's heavy typographic style
               className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-white/30 bg-white/5 px-4 py-2 font-sans text-[12px] sm:text-[13px] font-extrabold tracking-tight text-white backdrop-blur-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_0_25px_rgba(255,255,255,0.25)] whitespace-nowrap"
             >
-              {/* Inner radial glowing core */}
               <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.25),transparent_60%)] opacity-60 transition-opacity duration-300 group-hover:opacity-100"></span>
-              
-              {/* Glassy shine sweep effect on hover */}
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700 ease-in-out group-hover:translate-x-full"></span>
-              
-              {/* Clean, heavy text matching the screenshot, with a subtle glow */}
               <span className="relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">Download CV</span>
             </a>
           </div>

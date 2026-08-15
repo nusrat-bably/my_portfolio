@@ -33,7 +33,7 @@ export default function GuestbookSection({ initialEntries }: GuestbookProps) {
   }
 
   return (
-    <section className="w-full max-w-6xl mx-auto py-16 px-4">
+    <section id="guestbook" className="w-full max-w-6xl mx-auto py-16 px-4">
       
       {/* 1. REST POINT HEADER (Reads First) */}
       <div className="flex flex-col items-center justify-center text-center mb-16">
