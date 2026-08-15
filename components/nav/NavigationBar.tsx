@@ -19,7 +19,7 @@ export default function NavigationBar() {
     { label: 'Skills', href: '/#skills' },
     { label: 'Awards', href: '/#achievements' },
     { label: 'Education', href: '/#education' },
-    { label: 'References', href: '/#references', hideMobile: true },
+    { label: 'References', href: '/#references' },
   ];
 
   return (
@@ -27,14 +27,13 @@ export default function NavigationBar() {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      // FIXED: Sitting 100% flush at the very top with zero upper dead space
       className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-0 sm:px-4 md:px-8 pt-0"
     >
       {/* Premium Dark Glassmorphism container */}
       <nav className="pointer-events-auto w-full max-w-7xl mx-auto sm:rounded-2xl border-b sm:border border-white/10 bg-[#050505]/75 backdrop-blur-2xl transition-colors duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-        
+
         <div className="flex w-full items-center justify-between px-4 sm:px-6 py-2.5">
-          
+
           {/* ─── LEFT: EXACT ORIGINAL WORKSTATION & PEEKING CAT ─── */}
           <Link 
             href="/#hero" 
@@ -42,9 +41,9 @@ export default function NavigationBar() {
             className="relative flex items-center justify-start h-[30px] w-[100px] md:h-[36px] md:w-[120px] shrink-0 group overflow-visible"
           >
             <span className="sr-only">Nusrat Jahan Bably - Home</span>
-            
+
             <svg viewBox="0 0 240 70" className="h-full w-full overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg">
-              
+
               {/* Aesthetic Floating Background Elements */}
               <g stroke="#64748b" strokeWidth="0.8" opacity="0.6">
                 <path d="M 40 7 L 40 11 M 38 9 L 42 9" />
@@ -81,7 +80,7 @@ export default function NavigationBar() {
               <rect x="135" y="11" width="90" height="42" rx="2" fill="#18181b" stroke="#474554" strokeWidth="1.2" />
               <rect x="138" y="14" width="84" height="36" fill="#1e1e24" stroke="#474554" strokeWidth="0.8" />
               <rect x="138" y="14" width="15" height="36" fill="#27272a" />
-              
+
               <g stroke="#71717a" strokeWidth="1" strokeLinecap="round">
                 <line x1="141" y1="18" x2="150" y2="18" />
                 <line x1="141" y1="22" x2="150" y2="22" />
@@ -90,7 +89,7 @@ export default function NavigationBar() {
                 <line x1="141" y1="34" x2="150" y2="34" />
                 <line x1="141" y1="38" x2="150" y2="38" />
               </g>
-              
+
               <g strokeWidth="1.2" strokeLinecap="round">
                 <line x1="156" y1="18" x2="168" y2="18" stroke="#45D3B5" />
                 <line x1="156" y1="26" x2="172" y2="26" stroke="#94a3b8" />
@@ -101,7 +100,7 @@ export default function NavigationBar() {
               <line x1="186" y1="25" x2="198" y2="25" stroke="#e2e8f0" strokeWidth="1.2" strokeLinecap="round" />
               <line x1="186" y1="31" x2="208" y2="31" stroke="#e2e8f0" strokeWidth="1.2" strokeLinecap="round" />
 
-              {/* RESTORED: PEEKING CAT COMPANION */}
+              {/* PEEKING CAT COMPANION */}
               <g transform="translate(108, 36) scale(0.65)">
                 <path d="M 3 12 L -2 -2 L 10 7 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" strokeLinejoin="round" />
                 <path d="M 27 12 L 32 -2 L 20 7 Z" fill="#ffffff" stroke="#474554" strokeWidth="1.5" strokeLinejoin="round" />
@@ -136,7 +135,7 @@ export default function NavigationBar() {
               <path d="M 188 55 C 191 55, 191 61, 188 61" fill="none" stroke="#474554" strokeWidth="1.2" strokeLinecap="round" />
               <rect x="173" y="50" width="14" height="13" rx="1.5" fill="#27272a" stroke="#45D3B5" strokeWidth="1" />
               <ellipse cx="180" cy="50" rx="7" ry="1.5" fill="#5c4033" stroke="#45D3B5" strokeWidth="1" />
-              
+
               <g transform="translate(176, 54) scale(0.35)">
                 <path d="M 2 8 C 2 3, 16 3, 16 8 Z" fill="#fff" />
                 <polygon points="2,5 4,1 6,4" fill="#fff" />
@@ -176,30 +175,36 @@ export default function NavigationBar() {
             </svg>
           </Link>
 
-          {/* Swipeable Links Row (References hidden on mobile to fit nicely) */}
-          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-2">
+          {/* Swipeable Links Row - Matching Desktop layout perfectly */}
+          <div className="flex items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] px-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:bg-teal-500/5 transition-all duration-300 whitespace-nowrap ${
-                  item.hideMobile ? 'hidden lg:inline-block' : ''
-                }`}
+                className="px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#888] hover:text-teal-400 hover:bg-teal-500/5 transition-all duration-300 whitespace-nowrap"
               >
                 {item.label}
               </Link>
             ))}
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Glassy, Glowy CV Button - Now with a thick, modern sans-serif font! */}
+          <div className="flex items-center shrink-0 ml-1">
             <a
               href="/cv/NusratJahanBably_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/30 bg-teal-500/5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-teal-300/90 backdrop-blur-md transition-all duration-300 hover:border-teal-400/60 hover:bg-teal-500/10 hover:text-teal-100 whitespace-nowrap"
+              // Applied font-sans, font-extrabold, and tracking-tight to perfectly match the screenshot's heavy typographic style
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-white/30 bg-white/5 px-4 py-2 font-sans text-[12px] sm:text-[13px] font-extrabold tracking-tight text-white backdrop-blur-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_0_25px_rgba(255,255,255,0.25)] whitespace-nowrap"
             >
-              <span className="hidden sm:inline">Download CV</span>
-              <span className="sm:hidden">CV</span>
+              {/* Inner radial glowing core */}
+              <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.25),transparent_60%)] opacity-60 transition-opacity duration-300 group-hover:opacity-100"></span>
+              
+              {/* Glassy shine sweep effect on hover */}
+              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700 ease-in-out group-hover:translate-x-full"></span>
+              
+              {/* Clean, heavy text matching the screenshot, with a subtle glow */}
+              <span className="relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">Download CV</span>
             </a>
           </div>
         </div>

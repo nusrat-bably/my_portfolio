@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function ResearchSection() {
   const [selectedPoster, setSelectedPoster] = useState<{ title: string; image: string } | null>(null);
 
-  // Prevent background scrolling when modal is open to keep the user on the exact same plane
+  // Prevent background scrolling when modal is open
   useEffect(() => {
     if (selectedPoster) {
       document.body.style.overflow = 'hidden';
@@ -90,13 +90,13 @@ export default function ResearchSection() {
           <motion.div variants={itemVariants} className="mt-4 h-[1px] w-24 bg-teal-500/50" />
         </motion.div>
 
-        {/* OVERLAPPING GRID RESEARCH LIST - Matching Projects Layout */}
+        {/* RESEARCH LIST */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="space-y-16 md:space-y-20"
+          className="space-y-20 md:space-y-32"
         >
           {research.map((item, idx) => {
             const isEven = idx % 2 === 0;
@@ -107,16 +107,16 @@ export default function ResearchSection() {
                 <motion.div 
                   key={idx}
                   variants={itemVariants}
-                  className="relative grid grid-cols-12 gap-0 items-center"
+                  className="relative w-full max-w-3xl mx-auto"
                 >
-                  <div className="col-span-10 col-start-2 bg-[#112240] p-6 sm:p-8 md:p-10 rounded-md shadow-xl text-left relative z-20">
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="bg-[#112240] p-6 sm:p-8 md:p-10 rounded-md shadow-xl text-left relative z-20">
+                    <div className="flex flex-wrap items-center justify-between mb-3 gap-2">
                       <span className="text-teal-400 font-mono text-[11px] sm:text-[13px]">
                         {item.status}
                       </span>
                       <span className="font-mono text-xs text-teal-400/50">{item.id}</span>
                     </div>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-200 mb-4">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-200 mb-4 leading-snug">
                       {item.title}
                     </h3>
                     <p className="text-slate-300 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed mb-6">
@@ -132,9 +132,9 @@ export default function ResearchSection() {
                     
                     {/* Supervisor (If added later to text-only items) */}
                     {item.supervisor && (
-                      <div className="mt-4 pointer-events-auto">
-                        <p className="text-[12px] sm:text-[13px] text-slate-400 font-light">
-                          Supervisor:{' '}
+                      <div className="mt-5 pointer-events-auto">
+                        <p className="text-[12px] sm:text-[13px] text-slate-400 font-light flex items-center gap-1.5 flex-wrap">
+                          <span>Supervisor:</span>
                           <a 
                             href={item.supervisor.link} 
                             target="_blank" 
@@ -158,18 +158,19 @@ export default function ResearchSection() {
               <motion.div 
                 key={idx}
                 variants={itemVariants}
-                className="relative grid grid-cols-12 gap-0 items-center"
+                // FIXED: Stack vertically on mobile, use grid on md+ screens
+                className="relative flex flex-col md:grid md:grid-cols-12 gap-8 md:gap-0 items-center w-full"
               >
                 
                 {/* ─── POSTER IMAGE CONTAINER ─── */}
                 <div 
-                  className={`relative col-span-7 row-span-full z-10 group ${
-                    isEven ? 'col-start-1' : 'col-start-6'
+                  className={`relative w-full z-10 group ${
+                    isEven ? 'md:col-span-7 md:col-start-1 md:row-start-1' : 'md:col-span-7 md:col-start-6 md:row-start-1'
                   }`}
                 >
                   <div 
                     onClick={() => setSelectedPoster({ title: item.title, image: item.posterImage! })}
-                    className="block relative aspect-[16/10] rounded-md overflow-hidden bg-[#0f1110] shadow-lg group-hover:shadow-2xl z-10 transition-shadow duration-300 cursor-pointer"
+                    className="block relative aspect-[16/10] w-full rounded-md overflow-hidden bg-[#0f1110] shadow-lg group-hover:shadow-2xl z-10 transition-shadow duration-300 cursor-pointer"
                   >
                     {/* Teal Tint Overlay - disappears on hover */}
                     <div className="absolute inset-0 bg-teal-900/20 mix-blend-multiply transition-opacity duration-300 ease-out group-hover:opacity-0 z-10 pointer-events-none" />
@@ -181,8 +182,8 @@ export default function ResearchSection() {
                     />
 
                     {/* View Poster Indicator */}
-                    <div className="absolute bottom-4 right-4 z-20">
-                      <div className="bg-black/40 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.2em] px-3.5 py-2 rounded-lg border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
+                    <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20">
+                      <div className="bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg border border-white/20 shadow-lg flex items-center gap-2 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40">
                         <span>View Poster</span>
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -194,19 +195,19 @@ export default function ResearchSection() {
 
                 {/* ─── EDITORIAL TEXT / CONTENT ─── */}
                 <div 
-                  className={`relative col-span-6 row-span-full flex flex-col justify-center z-20 pointer-events-none items-start text-left max-w-xl ${
+                  className={`relative w-full flex flex-col justify-center z-20 pointer-events-none ${
                     isEven 
-                      ? 'col-start-7 items-end text-right' 
-                      : 'col-start-1'
+                      ? 'md:col-span-6 md:col-start-7 md:row-start-1 md:items-end md:text-right items-start text-left' 
+                      : 'md:col-span-6 md:col-start-1 md:row-start-1 items-start text-left'
                   }`}
                 >
                   {/* Status (Overline) */}
-                  <p className="text-teal-400 font-mono text-[10px] sm:text-[12px] mb-1.5 pointer-events-auto">
+                  <p className="text-teal-400 font-mono text-[10px] sm:text-[12px] mb-2 pointer-events-auto">
                     {item.status}
                   </p>
                   
-                  {/* Research Title with controlled line break so 'for' stays cleanly on the second line */}
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-200 mb-3 sm:mb-4 pointer-events-auto leading-snug">
+                  {/* Research Title */}
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-200 mb-4 sm:mb-5 pointer-events-auto leading-snug">
                     {idx === 0 ? (
                       <>Multimodal Speech Reconstruction <br className="hidden sm:inline" />for Bengali Stroke Patients</>
                     ) : idx === 1 ? (
@@ -217,13 +218,13 @@ export default function ResearchSection() {
                   </h3>
 
                   {/* Dark Blue Floating Description Box */}
-                  <div className="bg-[#112240] p-4 sm:p-6 md:p-7 rounded-md shadow-xl text-slate-300 text-[12px] sm:text-[13px] md:text-[14px] leading-relaxed mb-4 sm:mb-5 w-full pointer-events-auto transition-shadow hover:shadow-2xl">
+                  <div className={`bg-[#112240] p-5 sm:p-6 md:p-7 rounded-md shadow-xl text-slate-300 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed mb-5 sm:mb-6 w-full pointer-events-auto transition-shadow hover:shadow-2xl md:-mx-4 ${isEven ? 'md:ml-auto' : ''}`}>
                     {item.description}
                   </div>
 
                   {/* Metadata / Tags */}
-                  <ul className={`flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] sm:text-[12px] text-slate-400 mb-4 pointer-events-auto justify-start ${
-                    isEven ? 'justify-end' : ''
+                  <ul className={`flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] sm:text-[12px] text-slate-400 mb-5 pointer-events-auto justify-start w-full ${
+                    isEven ? 'md:justify-end' : ''
                   }`}>
                     {item.metadata.map((tag, i) => (
                       <li key={i} className="whitespace-nowrap">
@@ -234,21 +235,21 @@ export default function ResearchSection() {
 
                   {/* Optional Badge */}
                   {item.badge && (
-                    <div className={`pointer-events-auto inline-flex items-center gap-2 border border-amber-500/20 bg-amber-500/5 px-3 py-1.5 rounded-sm backdrop-blur-sm mb-4 justify-start ${
-                      isEven ? 'justify-end' : ''
-                    }`}>
-                      <span className="text-sm">🏆</span>
-                      <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] text-amber-400">
-                        {item.badge}
-                      </span>
+                    <div className={`pointer-events-auto flex w-full justify-start ${isEven ? 'md:justify-end' : ''} mb-5`}>
+                      <div className="inline-flex items-center gap-2 border border-amber-500/20 bg-amber-500/5 px-3 py-1.5 rounded-sm backdrop-blur-sm">
+                        <span className="text-sm">🏆</span>
+                        <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400">
+                          {item.badge}
+                        </span>
+                      </div>
                     </div>
                   )}
 
-                  {/* Supervisor Line - Moved to End with teal icon color */}
+                  {/* Supervisor Line */}
                   {item.supervisor && (
-                    <div className={`pointer-events-auto flex items-center ${isEven ? 'justify-end' : 'justify-start'} w-full`}>
-                      <p className="text-[12px] sm:text-[13px] text-slate-400 font-light">
-                        Supervisor:{' '}
+                    <div className={`pointer-events-auto flex items-center w-full justify-start ${isEven ? 'md:justify-end' : ''}`}>
+                      <p className="text-[12px] sm:text-[13px] text-slate-400 font-light flex items-center gap-1.5 flex-wrap">
+                        <span>Supervisor:</span>
                         <a 
                           href={item.supervisor.link} 
                           target="_blank" 
@@ -290,10 +291,10 @@ export default function ResearchSection() {
                 className="relative w-full max-w-5xl max-h-[92vh] bg-[#050505] rounded-md border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col cursor-default overflow-hidden"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-white/5 px-5 py-3 bg-[#0a0a0a] shrink-0">
+                <div className="flex items-center justify-between border-b border-white/5 px-4 sm:px-5 py-3 bg-[#0a0a0a] shrink-0">
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[9px] font-mono uppercase tracking-[0.3em] text-teal-400">Archived Artifact</span>
-                    <span className="text-sm font-bold text-white tracking-tight leading-tight">
+                    <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.3em] text-teal-400">Archived Artifact</span>
+                    <span className="text-xs sm:text-sm font-bold text-white tracking-tight leading-tight line-clamp-1">
                       {selectedPoster.title}
                     </span>
                   </div>
@@ -309,7 +310,7 @@ export default function ResearchSection() {
                 </div>
 
                 {/* Inner Image Container */}
-                <div className="relative w-full overflow-auto bg-[#08080a] p-4 flex items-center justify-center flex-grow max-h-[82vh]">
+                <div className="relative w-full overflow-auto bg-[#08080a] p-2 sm:p-4 flex items-center justify-center flex-grow max-h-[82vh]">
                   <img
                     src={selectedPoster.image}
                     alt={selectedPoster.title}

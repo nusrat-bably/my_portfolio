@@ -189,7 +189,7 @@ export default function CatCompanion() {
                           {/* GitHub */}
                           <motion.a 
                             variants={itemVariants} 
-                            href="https://github.com/nubab4088" 
+                            href="https://github.com/nusrat-bably" 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             className="flex h-12 flex-1 items-center justify-center rounded-xl border border-white/40 bg-white/5 text-[#e5e5e5] transition-all duration-300 hover:scale-105 hover:bg-white/15 hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]"
@@ -237,9 +237,10 @@ export default function CatCompanion() {
         }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="pointer-events-auto relative flex h-[72px] w-[72px] cursor-pointer items-center justify-center rounded-full border border-white/10 bg-[#0a0a0a] shadow-[0_8px_32px_rgba(0,0,0,0.6)] ring-1 ring-white/5 backdrop-blur-md transition-colors hover:border-teal-400/50 group"
+        // Container reduced from 72x72 to 64x64 (h-16 w-16)
+        className="pointer-events-auto relative flex h-[64px] w-[64px] cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.6)] ring-1 ring-black/5 backdrop-blur-md transition-colors hover:bg-gray-50 group"
       >
-        <div className="absolute inset-0 rounded-full bg-teal-500/10 blur-[12px] transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute inset-0 rounded-full bg-teal-500/5 blur-[12px] transition-opacity duration-500 group-hover:opacity-100" />
         
         <AnimatePresence>
           {isSleeping && (
@@ -247,45 +248,75 @@ export default function CatCompanion() {
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: [0, 1, 0], y: -15, x: 10 }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="absolute -top-1 right-0 text-[10px] font-extrabold text-teal-400"
+              className="absolute -top-1 right-0 text-[11px] font-extrabold text-[#000000]"
             >
               Zzz
             </motion.div>
           )}
         </AnimatePresence>
 
-        <svg viewBox="0 0 100 100" className="relative z-10 h-12 w-12 overflow-visible" style={{ filter: 'drop-shadow(0px 0px 3px rgba(45,212,191,0.4))' }}>
-          <path d="M 25 80 C 25 65, 75 65, 75 80" fill="none" stroke="#2dd4bf" strokeWidth="5" strokeLinecap="round" />
-          <path d="M 72 75 C 95 75, 95 55, 82 55 C 75 55, 75 65, 80 65" fill="none" stroke="#2dd4bf" strokeWidth="5" strokeLinecap="round" />
-          <circle cx="50" cy="45" r="16" fill="#0a0a0a" stroke="#2dd4bf" strokeWidth="5" />
-          <path d="M 38 34 L 40 15 L 48 29 Z" fill="#0a0a0a" stroke="#2dd4bf" strokeWidth="5" strokeLinejoin="round" />
-          <path d="M 62 34 L 60 15 L 52 29 Z" fill="#0a0a0a" stroke="#2dd4bf" strokeWidth="5" strokeLinejoin="round" />
+        {/* SVG reduced slightly (h-12 w-12) to match the new container size */}
+        <svg viewBox="0 0 100 100" className="relative z-10 h-12 w-12 overflow-visible" style={{ filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.05))' }}>
           
-          {!isSleeping && (
-            <motion.path 
-              d="M 28 65 L 12 50" 
-              stroke="#2dd4bf" 
-              strokeWidth="5" 
-              strokeLinecap="round"
-              animate={{ rotate: [0, 25, -10, 25, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              style={{ transformOrigin: "28px 65px" }}
-            />
-          )}
+          {/* Disconnected Face Strokes */}
+          {/* Left Ear */}
+          <path d="M 17 48 Q 17 29 21 30 Q 27 32 31 38" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
           
+          {/* Top Head Curve */}
+          <path d="M 36 37 Q 44 35 52 37" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          
+          {/* Right Ear */}
+          <path d="M 57 38 Q 61 32 67 30 Q 71 29 72 48" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+
+          {/* Left Whiskers */}
+          <path d="M 4 52 L 14 53" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+          <path d="M 2 60 L 15 60" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+          <path d="M 5 68 L 14 66" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+          
+          {/* Right Whiskers (between face and paw) */}
+          <path d="M 74 54 L 81 54" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+          <path d="M 75 62 L 82 62" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+
+          {/* Dynamic Face Features */}
           {isSleeping ? (
             <g>
-              <line x1="42" y1="48" x2="47" y2="48" stroke="#2dd4bf" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="53" y1="48" x2="58" y2="48" stroke="#2dd4bf" strokeWidth="2.5" strokeLinecap="round" />
-              <circle cx="50" cy="52" r="1.5" fill="#2dd4bf" />
+              {/* Sleeping Eyes */}
+              <path d="M 23 61 Q 27 65 31 61" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+              <path d="M 49 61 Q 53 65 57 61" fill="none" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+              {/* Nose */}
+              <path d="M 38 64 L 42 64 L 40 66.5 Z" fill="#000000" stroke="#000000" strokeWidth="1" strokeLinejoin="round" />
             </g>
           ) : (
             <g>
-              <circle cx="44" cy="45" r="2.5" fill="#2dd4bf" />
-              <circle cx="56" cy="45" r="2.5" fill="#2dd4bf" />
-              <path d="M 47 50 Q 50 53, 53 50" fill="none" stroke="#2dd4bf" strokeWidth="2" strokeLinecap="round" />
+              {/* Open Eyes */}
+              <circle cx="27" cy="61" r="3.5" fill="#000000" />
+              <circle cx="53" cy="61" r="3.5" fill="#000000" />
+              {/* Nose */}
+              <path d="M 38 64 L 42 64 L 40 67 Z" fill="#000000" stroke="#000000" strokeWidth="1" strokeLinejoin="round" />
             </g>
           )}
+
+          {/* Animated Raised Paw */}
+          {!isSleeping && (
+            <motion.g 
+              animate={{ rotate: [0, 15, -5, 15, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              style={{ transformOrigin: "90px 74px" }}
+            >
+              {/* Paw Arm Outline */}
+              <path d="M 83 74 Q 81 49 84 44 C 84 32, 98 32, 100 44 Q 103 59 101 74" fill="none" stroke="#000000" strokeWidth="4" strokeLinecap="round" />
+              
+              {/* Toe Beans */}
+              <circle cx="85.5" cy="42" r="2" fill="#000000" />
+              <circle cx="89" cy="38" r="2" fill="#000000" />
+              <circle cx="94" cy="37.5" r="2" fill="#000000" />
+              <circle cx="98.5" cy="41" r="2" fill="#000000" />
+              
+              {/* Main Paw Pad */}
+              <path d="M 88 48 Q 90 45 92 48 Q 94 52 90 54 Q 86 52 88 48 Z" fill="#000000" stroke="#000000" strokeWidth="1" strokeLinejoin="round" />
+            </motion.g>
+          )}
+          
         </svg>
       </motion.div>
     </div>
