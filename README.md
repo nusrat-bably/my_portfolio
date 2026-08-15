@@ -317,3 +317,6 @@ Built with intention by Nusrat Jahan Bably. Free to use and customize.
 **Ready for**: Immediate deployment on Vercel
 
 ✨ **"Building systems where intelligence meets usability."**
+
+© 2026 Nusrat Jahan Bably. All rights reserved.
+This repository is publicly available for viewing and educational/reference purposes. Reuse, redistribution, or reproduction of the design or source code without permission is not permitted.
