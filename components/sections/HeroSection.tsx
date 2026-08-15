@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+import Image from 'next/image';
 import HeroBackground from './HeroBackground';
 
 export default function HeroSection() {
@@ -24,19 +24,37 @@ export default function HeroSection() {
   const item = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } } };
 
   return (
-    <section id="hero" className="relative flex flex-col pt-24 sm:pt-28 pb-16 overflow-hidden bg-[#050505]">
+    <section id="hero" className="relative flex flex-col pt-24 sm:pt-28 pb-8 overflow-hidden bg-[#050505]">
       <HeroBackground />
 
-      <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-center">
+      {/* CINEMATIC BACKGROUND ACCENT */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.35 }} 
+        transition={{ duration: 2, ease: "easeOut" }}
+        className="absolute top-0 right-0 w-full lg:w-[65%] h-full z-0 pointer-events-none"
+      >
+        <Image 
+          src="/guestbook/3.jpeg" 
+          alt="Hero Cinematic Background" 
+          fill 
+          priority
+          className="object-cover object-[12%_40%]"
+        />
+        {/* Dark overlays for readability and seamless blending */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/50 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505] z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#050505_90%)] z-10" />
+      </motion.div>
+
+      <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-20 w-full">
+        
+        {/* MAIN HERO GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8 lg:gap-16 items-center">
           
           <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col">
             
-            <motion.div variants={item} className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-teal-400/80">
-              SOFTWARE ENGINEERING · AI · RESEARCH
-            </motion.div>
-
-            <motion.h1 variants={item} className="text-4xl sm:text-5xl xl:text-[76px] font-black tracking-tight text-slate-100 leading-[1.05] mb-4">
+            <motion.h1 variants={item} className="text-4xl sm:text-5xl xl:text-[76px] font-black tracking-tight text-slate-100 leading-[1.05] mb-4 drop-shadow-xl mt-2">
               Nusrat Jahan<br />
               <span className="bg-gradient-to-r from-teal-100 via-teal-300 to-teal-600/80 bg-clip-text text-transparent drop-shadow-sm">Bably</span>
             </motion.h1>
@@ -53,60 +71,61 @@ export default function HeroSection() {
                   animate={{ opacity: 1, y: 0 }} 
                   exit={{ opacity: 0, y: -5 }} 
                   transition={{ duration: 0.3 }}
-                  className="text-base text-slate-200 font-light"
+                  className="text-base text-slate-200 font-light drop-shadow-md"
                 >
                   &gt; {messages[status]}<span className="animate-pulse text-teal-500/70">_</span>
                 </motion.p>
               </AnimatePresence>
             </motion.div>
 
-            <motion.p variants={item} className="text-[14px] sm:text-[15px] leading-relaxed text-slate-400 max-w-[480px] font-light">
+            <motion.p variants={item} className="text-[14px] sm:text-[15px] leading-relaxed text-slate-300 max-w-[620px] font-light drop-shadow-lg">
               Research-driven software engineer exploring the intersection of AI, research, and intelligent systems. Focused on building scalable products where scientific inquiry meets real-world utility.
             </motion.p>
-          </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8, delay: 0.3 }} 
-            className="flex flex-col gap-3 w-full max-w-[480px] mx-auto lg:mx-0 mt-6 lg:mt-0"
-          >
-            <div className="group relative rounded-[2rem] border border-white/10 bg-white/[0.02] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:border-teal-500/30 hover:bg-white/[0.04]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[2rem]" />
-              <div className="relative z-10">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Academic Record</h3>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl sm:text-5xl font-black text-slate-100">3.90</span>
-                  <span className="text-sm font-medium text-slate-500">/ 4.00</span>
+            {/* ALL THREE BOXES IN ONE LINE UNDER THE BIO */}
+            <motion.div variants={item} className="grid grid-cols-3 gap-3 mt-6 w-full max-w-[620px]">
+              
+              {/* Box 1: Academic Record */}
+              <div className="group relative rounded-xl border border-white/10 bg-[#050505]/50 px-4 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all duration-300 hover:border-teal-500/30 hover:bg-[#050505]/70 cursor-default">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
+                <div className="relative z-10">
+                  <h4 className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Academic Record</h4>
+                  <div className="flex items-baseline justify-between">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-lg font-black text-slate-100 tracking-tight">3.90</span>
+                      <span className="text-[9px] font-medium text-slate-400">/4.0</span>
+                    </div>
+                    <span className="text-[9px] text-slate-300 font-medium">UIU · CSE</span>
+                  </div>
                 </div>
-                <p className="mt-1.5 text-xs text-slate-400 font-light">B.Sc. in CSE · United International University</p>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="group relative rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:border-teal-500/30 hover:bg-white/[0.04]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[1.5rem]" />
-                <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Engineering</h4>
-                <p className="text-xs sm:text-sm font-medium text-slate-200">Full-Stack Development</p>
+              {/* Box 2: Engineering */}
+              <div className="group relative rounded-xl border border-white/10 bg-[#050505]/50 px-4 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all duration-300 hover:border-teal-500/30 hover:bg-[#050505]/70 cursor-default">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
+                <div className="relative z-10 flex flex-col justify-center h-full py-0.5">
+                  <h4 className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Engineering</h4>
+                  <p className="text-xs font-medium text-slate-200 truncate">Full-Stack Development</p>
+                </div>
               </div>
-              <div className="group relative rounded-[1.5rem] border border-white/10 bg-white/[0.02] p-4 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-300 hover:border-teal-500/30 hover:bg-white/[0.04]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[1.5rem]" />
-                <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Research</h4>
-                <p className="text-xs sm:text-sm font-medium text-slate-200">AI & Deep Learning</p>
+
+              {/* Box 3: Research */}
+              <div className="group relative rounded-xl border border-white/10 bg-[#050505]/50 px-4 py-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all duration-300 hover:border-teal-500/30 hover:bg-[#050505]/70 cursor-default">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(45,212,191,0.05),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
+                <div className="relative z-10 flex flex-col justify-center h-full py-0.5">
+                  <h4 className="text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Research</h4>
+                  <p className="text-xs font-medium text-slate-200 truncate">AI & Deep Learning</p>
+                </div>
               </div>
-            </div>
+
+            </motion.div>
+
           </motion.div>
+
+          {/* RIGHT COLUMN: Left clean and open to highlight the background art */}
+          <div className="hidden lg:block" />
         </div>
 
-        {/* Scroll Prompt styled exactly like the Download CV button */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="flex justify-center mt-10 relative z-10">
-          <Link 
-            href="#about" 
-            className="inline-flex relative items-center justify-center overflow-hidden rounded-full border border-teal-500/30 bg-teal-500/5 px-5 py-2 text-xs font-semibold uppercase tracking-widest text-teal-300/90 backdrop-blur-md transition-all duration-300 hover:border-teal-400/60 hover:bg-teal-500/10 hover:text-teal-100"
-          >
-            <span>Scroll to Explore</span>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

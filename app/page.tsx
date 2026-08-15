@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect } from 'react';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import ExperienceSection from '@/components/sections/ExperienceSection';
@@ -10,30 +7,26 @@ import SkillsSection from '@/components/sections/SkillsSection';
 import EducationSection from '@/components/sections/EducationSection';
 import AchievementsSection from '@/components/sections/AchievementsSection';
 import ReferencesSection from '@/components/sections/ReferencesSection';
+import GuestbookSection from '@/components/sections/GuestbookSection';
 import Footer from '@/components/Footer';
 
-export default function Home() {
-  useEffect(() => {
-    // Smooth scroll for anchor links - identical behavior across Mobile & Desktop
-    const handleAnchorClick = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest('a');
-      if (target && target.getAttribute('href')?.startsWith('/#')) {
-        e.preventDefault();
-        const id = target.getAttribute('href')?.split('#')[1];
-        
-        if (id) {
-          const element = document.getElementById(id);
-          element?.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    };
+// The new invisible smooth scroll component
+import SmoothScroll from '@/components/SmoothScroll';
+// The Cat Companion (matching your exact folder structure)
+import CatCompanion from '@/components/sections/CatCompanion';
 
-    document.addEventListener('click', handleAnchorClick);
-    return () => document.removeEventListener('click', handleAnchorClick);
-  }, []);
+// The server action to fetch data
+import { getGuestbookEntries } from '@/actions/guestbook';
+
+export default async function Home() {
+  // Fetch approved guestbook entries securely on the server side
+  const entries = await getGuestbookEntries();
 
   return (
     <main className="relative">
+      {/* Invisible client component for scroll behavior */}
+      <SmoothScroll />
+      
       {/* Sections render unconditionally for all screen sizes */}
       <HeroSection />
       <AboutSection />
@@ -45,8 +38,14 @@ export default function Home() {
       <AchievementsSection />
       <ReferencesSection />
       
+      {/* The new Guestbook Section */}
+      <GuestbookSection initialEntries={entries} />
+      
       {/* Footer always remains visible at the bottom */}
       <Footer />
+
+      {/* Floating Interactive Cat Companion */}
+      <CatCompanion />
     </main>
   );
 }
