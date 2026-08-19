@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import HeroBackground from './HeroBackground';
+import ViewCounter from '@/components/ViewCounter'; // <-- Imported ViewCounter
 
 export default function HeroSection() {
   const [status, setStatus] = useState(0);
@@ -52,8 +53,13 @@ export default function HeroSection() {
         {/* MAIN HERO GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8 lg:gap-16 items-center">
           
-          <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col">
+          <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col items-start">
             
+            {/* NEW: View Counter placed neatly above the name */}
+            <motion.div variants={item} className="mb-2">
+              <ViewCounter />
+            </motion.div>
+
             <motion.h1 variants={item} className="text-4xl sm:text-5xl xl:text-[76px] font-black tracking-tight text-slate-100 leading-[1.05] mb-4 drop-shadow-xl mt-2">
               Nusrat Jahan<br />
               <span className="bg-gradient-to-r from-teal-100 via-teal-300 to-teal-600/80 bg-clip-text text-transparent drop-shadow-sm">Bably</span>

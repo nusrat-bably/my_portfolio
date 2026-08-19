@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^5.25.2",
+    "@upstash/redis": "^1.38.2",
     "autoprefixer": "^10.4.0",
     "framer-motion": "^11.0.0",
     "next": "^16.3.1",

@@ -1,3 +1,6 @@
+import SmoothScroll from '@/components/SmoothScroll';
+import CatCompanion from '@/components/sections/CatCompanion';
+
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
 import ExperienceSection from '@/components/sections/ExperienceSection';
@@ -10,11 +13,6 @@ import ReferencesSection from '@/components/sections/ReferencesSection';
 import GuestbookSection from '@/components/sections/GuestbookSection';
 import Footer from '@/components/Footer';
 
-// The new invisible smooth scroll component
-import SmoothScroll from '@/components/SmoothScroll';
-// The Cat Companion (matching your exact folder structure)
-import CatCompanion from '@/components/sections/CatCompanion';
-
 // The server action to fetch data
 import { getGuestbookEntries } from '@/actions/guestbook';
 
@@ -23,11 +21,11 @@ export default async function Home() {
   const entries = await getGuestbookEntries();
 
   return (
-    <main className="relative">
-      {/* Invisible client component for scroll behavior */}
+    <main className="relative min-h-screen bg-[#0a0a0a] text-white">
+      {/* Invisible client component for smooth scroll behavior */}
       <SmoothScroll />
       
-      {/* Sections render unconditionally for all screen sizes */}
+      {/* Core Portfolio Sections */}
       <HeroSection />
       <AboutSection />
       <ExperienceSection />
@@ -38,10 +36,10 @@ export default async function Home() {
       <AchievementsSection />
       <ReferencesSection />
       
-      {/* The new Guestbook Section */}
+      {/* Interactive Guestbook */}
       <GuestbookSection initialEntries={entries} />
       
-      {/* Footer always remains visible at the bottom */}
+      {/* Global Footer */}
       <Footer />
 
       {/* Floating Interactive Cat Companion */}
