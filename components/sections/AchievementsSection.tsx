@@ -131,7 +131,8 @@ export default function AchievementsSection() {
             variants={containerVariants}
             className="w-full flex flex-col items-center text-center relative"
           >
-            <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+            {/* FIX: Reduced from text-4xl sm:text-5xl lg:text-6xl to text-3xl sm:text-4xl lg:text-5xl */}
+            <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
               <span className="bg-gradient-to-r from-white via-[#bce0d5] to-[#52b7a4] bg-clip-text text-transparent">
                 Awards & Achievements
               </span>

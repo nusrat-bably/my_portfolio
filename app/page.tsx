@@ -1,5 +1,6 @@
 import SmoothScroll from '@/components/SmoothScroll';
 import CatCompanion from '@/components/sections/CatCompanion';
+import KudosButton from '@/components/KudosButton';
 
 import HeroSection from '@/components/sections/HeroSection';
 import AboutSection from '@/components/sections/AboutSection';
@@ -38,6 +39,9 @@ export default async function Home() {
       
       {/* Interactive Guestbook */}
       <GuestbookSection initialEntries={entries} />
+      
+      {/* ─── NEW CENTRED KUDOS BUTTON ─── */}
+      <KudosButton />
       
       {/* Global Footer */}
       <Footer />
