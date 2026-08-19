@@ -1,6 +1,5 @@
 'use client';
 
-
 import { motion } from 'framer-motion';
 
 export default function ProjectsSection() {
@@ -61,7 +60,8 @@ export default function ProjectsSection() {
   };
 
   return (
-    <section id="projects" className="bg-[#050505] pt-12 pb-16 relative overflow-hidden font-sans">
+    /* FIX: Reduced top padding from pt-12 to pt-4 sm:pt-6 to eliminate the gap above the title */
+    <section id="projects" className="bg-[#050505] pt-4 sm:pt-6 pb-16 relative overflow-hidden font-sans">
       
       {/* Container aligned to max-w-7xl matching all previous sections */}
       <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-10">
@@ -72,12 +72,12 @@ export default function ProjectsSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
-          className="mb-12 flex flex-col items-center text-center"
+          className="mb-8 sm:mb-10 flex flex-col items-center text-center"
         >
           <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100">
             Featured <span className="bg-gradient-to-r from-slate-100 via-teal-100 to-teal-500/80 bg-clip-text text-transparent">Projects</span>
           </motion.h2>
-          <motion.div variants={itemVariants} className="mt-4 h-[1px] w-24 bg-teal-500/50" />
+          <motion.div variants={itemVariants} className="mt-3 h-[1px] w-24 bg-teal-500/50" />
         </motion.div>
 
         {/* OVERLAPPING GRID PROJECT LIST */}
@@ -86,7 +86,7 @@ export default function ProjectsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="space-y-16 md:space-y-20"
+          className="space-y-12 sm:space-y-16"
         >
           {projects.map((project, idx) => {
             const isEven = idx % 2 === 0;
@@ -132,17 +132,17 @@ export default function ProjectsSection() {
                   </p>
                   
                   {/* Project Title - Link Removed */}
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-200 mb-4 sm:mb-6 pointer-events-auto transition-colors">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-200 mb-3 sm:mb-4 pointer-events-auto transition-colors">
                     {project.title}
                   </h3>
 
                   {/* Dark Blue Floating Description Box */}
-                  <div className="bg-[#112240] p-4 sm:p-6 md:p-8 rounded-md shadow-xl text-slate-300 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed mb-4 sm:mb-6 w-full pointer-events-auto transition-shadow hover:shadow-2xl">
+                  <div className="bg-[#112240] p-4 sm:p-6 md:p-8 rounded-md shadow-xl text-slate-300 text-[13px] sm:text-[14px] md:text-[15px] leading-relaxed mb-3 sm:mb-4 w-full pointer-events-auto transition-shadow hover:shadow-2xl">
                     {project.description}
                   </div>
 
                   {/* Mono Tech Stack */}
-                  <ul className={`flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-2 font-mono text-[11px] sm:text-[13px] text-slate-400 mb-4 sm:mb-6 pointer-events-auto justify-start ${
+                  <ul className={`flex flex-wrap gap-x-4 sm:gap-x-5 gap-y-2 font-mono text-[11px] sm:text-[13px] text-slate-400 mb-3 sm:mb-4 pointer-events-auto justify-start ${
                     isEven ? 'justify-end' : ''
                   }`}>
                     {project.technologies.map((tech, i) => (
