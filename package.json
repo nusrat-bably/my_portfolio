@@ -10,6 +10,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@google/genai": "^2.17.1",
     "@notionhq/client": "^5.25.2",
     "@upstash/redis": "^1.38.2",
     "autoprefixer": "^10.4.0",

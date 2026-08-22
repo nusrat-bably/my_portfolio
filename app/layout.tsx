@@ -4,6 +4,7 @@ import './globals.css';
 import NavigationBar from '@/components/nav/NavigationBar';
 import CatCompanion from '@/components/sections/CatCompanion';
 import RoamingDevCat from '@/components/sections/RoamingDevCat';
+import PortfolioChatbot from '@/components/PortfolioChatbot'; // 1. Imported the chatbot
 
 export const metadata: Metadata = {
   title: 'Nusrat Jahan Bably | Full-Stack Developer · AI & Research Engineer',
@@ -69,6 +70,9 @@ export default function RootLayout({
 
         {/* The single, smart roaming cat */}
         <RoamingDevCat />
+
+        {/* 2. Added the AI chatbot component */}
+        <PortfolioChatbot />
       </body>
     </html>
   );
