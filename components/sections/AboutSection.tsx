@@ -26,7 +26,7 @@ const aboutCards = [
 const galleryItems = [
   { id: 1, title: 'Strategic Thinking', subtitle: 'Chess', image: '/photos/Chess.jpeg', fit: 'object-contain' },
   { id: 2, title: 'Learning', subtitle: 'Reading', image: '/photos/reading.jpeg', fit: 'object-contain' },
-  { id: 3, title: 'Creative Expression', subtitle: 'Sketching', image: '/photos/sketching.jpeg', fit: 'object-cover' },
+  { //id: 3, title: 'Creative Expression', subtitle: 'Sketching', image: '/photos/sketching.jpeg', fit: 'object-cover' },
   { id: 5, title: 'Captured Moments', subtitle: 'Photography', image: '/photos/photography.jpeg', fit: 'object-cover' },
   { id: 7, title: 'Companionship', subtitle: 'Pets', image: '/photos/pet.jpeg', fit: 'object-cover' },
 ];
