@@ -75,6 +75,11 @@
     @apply text-4xl md:text-5xl lg:text-6xl font-semibold mb-16 md:mb-20;
   }
 
+  .section-heading {
+    font-size: clamp(1.875rem, 4vw, 3rem);
+    line-height: 1.1;
+  }
+
   .grad-text {
     background: linear-gradient(135deg, var(--accent), var(--accent-warm));
     -webkit-background-clip: text;

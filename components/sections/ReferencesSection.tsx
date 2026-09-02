@@ -38,7 +38,7 @@ export default function ReferencesSection() {
   };
 
   return (
-    <section id="references" className="bg-[#0a0a0a] pt-4 pb-16 relative overflow-hidden">
+    <section id="references" className="bg-[#0a0a0a] pt-0 pb-8 relative overflow-hidden">
       {/* Ambient Background Glow */}
       <div className="pointer-events-none absolute bottom-10 left-1/3 -z-10 h-80 w-80 rounded-full bg-teal-500/10 blur-[130px]" />
 
@@ -53,7 +53,7 @@ export default function ReferencesSection() {
           variants={containerVariants}
           className="mb-10 md:mb-12 flex justify-center text-center"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+          <motion.h2 variants={itemVariants} className="section-heading font-black tracking-tight text-white">
             Academic <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-teal-300">References</span>
           </motion.h2>
         </motion.div>

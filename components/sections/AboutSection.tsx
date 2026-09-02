@@ -48,7 +48,7 @@ export default function AboutSection() {
   };
 
   return (
-    <section id="about" className="bg-[#050505] pt-0 pb-16 relative overflow-hidden font-sans">
+    <section id="about" className="bg-[#050505] pt-0 pb-8 relative overflow-hidden font-sans">
       
       <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -66,7 +66,7 @@ export default function AboutSection() {
           variants={containerVariants}
           className="mb-5 text-center"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100">
+          <motion.h2 variants={itemVariants} className="section-heading font-extrabold tracking-tight text-slate-100">
             Who I Am Beyond <span className="bg-gradient-to-r from-slate-100 via-teal-100 to-teal-500/80 bg-clip-text text-transparent">Tech</span>
           </motion.h2>
         </motion.div>

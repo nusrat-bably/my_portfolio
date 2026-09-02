@@ -116,7 +116,7 @@ export default function AchievementsSection() {
   };
 
   return (
-    <section id="achievements" className="bg-[#050508] pt-16 pb-24 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
+    <section id="achievements" className="bg-[#050508] pt-0 pb-8 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
       
       <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
         
@@ -131,8 +131,7 @@ export default function AchievementsSection() {
             variants={containerVariants}
             className="w-full flex flex-col items-center text-center relative"
           >
-            {/* FIX: Reduced from text-4xl sm:text-5xl lg:text-6xl to text-3xl sm:text-4xl lg:text-5xl */}
-            <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            <motion.h2 variants={itemVariants} className="section-heading font-black tracking-tight">
               <span className="bg-gradient-to-r from-white via-[#bce0d5] to-[#52b7a4] bg-clip-text text-transparent">
                 Awards & Achievements
               </span>

@@ -127,7 +127,7 @@ export default function SkillsSection() {
   );
 
   return (
-    <section id="skills" className="relative overflow-hidden bg-[#050609] pt-6 pb-20 font-sans">
+    <section id="skills" className="relative overflow-hidden bg-[#050609] pt-0 pb-8 font-sans">
       
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.055]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '26px 26px' }} />
@@ -136,7 +136,7 @@ export default function SkillsSection() {
       {/* HEADER */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 text-center">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={containerVariants}>
-          <motion.h2 variants={itemVariants} className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-[-0.04em] text-white">
+          <motion.h2 variants={itemVariants} className="section-heading font-bold tracking-[-0.04em] text-white">
             Technical <span className="text-[#55e4d0]">Skills</span>
           </motion.h2>
           <motion.p variants={itemVariants} className="mt-2 sm:mt-3 text-xs sm:text-base text-white/55 tracking-wide px-4">

@@ -61,7 +61,7 @@ export default function ProjectsSection() {
 
   return (
     /* FIX: Reduced top padding from pt-12 to pt-4 sm:pt-6 to eliminate the gap above the title */
-    <section id="projects" className="bg-[#050505] pt-4 sm:pt-6 pb-16 relative overflow-hidden font-sans">
+    <section id="projects" className="bg-[#050505] pt-0 pb-8 relative overflow-hidden font-sans">
       
       {/* Container aligned to max-w-7xl matching all previous sections */}
       <div className="container-max mx-auto max-w-7xl px-4 sm:px-6 md:px-8 relative z-10">
@@ -74,7 +74,7 @@ export default function ProjectsSection() {
           variants={containerVariants}
           className="mb-8 sm:mb-10 flex flex-col items-center text-center"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-100">
+          <motion.h2 variants={itemVariants} className="section-heading font-extrabold tracking-tight text-slate-100">
             Featured <span className="bg-gradient-to-r from-slate-100 via-teal-100 to-teal-500/80 bg-clip-text text-transparent">Projects</span>
           </motion.h2>
           <motion.div variants={itemVariants} className="mt-3 h-[1px] w-24 bg-teal-500/50" />

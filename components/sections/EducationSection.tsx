@@ -17,7 +17,7 @@ export default function EducationSection() {
   };
 
   return (
-    <section id="education" className="bg-[#050508] pt-2 pb-12 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
+    <section id="education" className="bg-[#050508] pt-0 pb-8 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
       
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-teal-500/5 blur-[120px] z-0" />
@@ -32,7 +32,7 @@ export default function EducationSection() {
           variants={containerVariants}
           className="mb-8 flex flex-col items-center text-center"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+          <motion.h2 variants={itemVariants} className="section-heading font-black tracking-tight text-white leading-tight">
             Academic <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#bce0d5] to-[#52b7a4]">Background</span>
           </motion.h2>
           <motion.div variants={itemVariants} className="w-10 h-1 bg-[#52b7a4] rounded-full mt-3 opacity-80" />

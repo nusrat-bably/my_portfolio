@@ -48,7 +48,7 @@ export default function ExperienceSection() {
 
   return (
     // Reduced pt-16 to pt-4 to remove the empty gap at the top
-    <section id="experience" className="bg-[#050508] pt-4 pb-24 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
+    <section id="experience" className="bg-[#050508] pt-0 pb-8 relative overflow-hidden font-sans selection:bg-[#52b7a4]/30">
       
       {/* Abstract Background Glows */}
       <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
@@ -66,7 +66,7 @@ export default function ExperienceSection() {
           className="mb-10 flex flex-col items-center text-center"
         >
           {/* Matched the title color combination to the reference image */}
-          <motion.h2 variants={itemVariants} className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-white">
+          <motion.h2 variants={itemVariants} className="section-heading font-black tracking-tight leading-tight text-white">
             Professional <span className="bg-gradient-to-r from-white via-[#bce0d5] to-[#52b7a4] bg-clip-text text-transparent">Journey</span>
           </motion.h2>
           <motion.div variants={itemVariants} className="w-12 h-1 bg-[#52b7a4] rounded-full mt-4 opacity-80" />
