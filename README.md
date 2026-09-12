@@ -1,5 +1,5 @@
 # 💫 About Me:
-🔭 I’m currently working on AI/ML projects, improving my software projects and researching at ELITE Research Lab<br>👯 I’m looking to collaborate on HCI, AI/ML & Data Science Research<br>🤝 I’m looking for help with Research, ML experimentation & building better real-world systems<br>🌱 I’m currently learning: Project deployments, NLP, CV, LLM <br>💬 Ask me about My Portfolio, CSE, AI/ML, software projects, research or my cats 🐈<br>⚡ Fun fact: I’m equally comfortable discussing neural networks and my hobbies;  you just need to be as deep and emotional intelligent as me 
+🔭 I’m currently working on: AI/ML projects, improving my software projects and researching at ELITE Research Lab<br>👯 I’m looking to collaborate on: HCI, AI/ML & Data Science Research<br>🤝 I’m looking for help with: Research, ML experimentation & building better real-world systems<br>🌱 I’m currently learning: Project deployments, NLP, CV, LLM <br>💬 Ask me about: My Portfolio, CSE, AI/ML, software projects, research or my cats 🐈<br>⚡ Fun fact: I’m equally comfortable discussing neural networks and my hobbies;  you just need to be as deep and emotional intelligent as me 
 
 
 ## 🌐 Socials:
