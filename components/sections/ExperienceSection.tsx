@@ -138,44 +138,47 @@ export default function ExperienceSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
-          className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-10"
+          className="grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-10 xl:gap-8"
         >
           {experiencesData.map((exp) => (
             <motion.div
               key={exp.id}
               variants={itemVariants}
-              className={`w-full relative rounded-[2rem] bg-[#09090b] border border-white/5 ${exp.cardStyles.hoverBorder} shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${exp.cardStyles.hoverShadow} transition-all duration-500 overflow-hidden flex flex-col group`}
+              // Added h-full to the outer card so they stretch equally in the grid
+              className={`w-full h-full relative rounded-[2rem] bg-[#09090b] border border-white/5 ${exp.cardStyles.hoverBorder} shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${exp.cardStyles.hoverShadow} transition-all duration-500 overflow-hidden flex flex-col group`}
             >
               
               {/* Subtle top-right corner glow effect on hover */}
               <div className={`absolute top-0 right-0 w-[400px] h-[400px] ${exp.cardStyles.glowBg} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0`} />
 
-              {/* CARD CONTENT */}
-              <div className="relative z-10 p-8 sm:p-12 xl:p-10 flex flex-col h-full">
+              {/* MAIN CARD CONTENT (Header & Circles) */}
+              {/* Added flex-grow so this section fills available space, pushing the footer down evenly */}
+              <div className="relative z-10 flex flex-col flex-grow p-8 sm:p-12 xl:p-8 xl:pb-4">
                 
                 {/* 1. Header Information (Role) */}
-                <div className="flex flex-col text-center mb-10 xl:mb-8">
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-3xl font-black text-white tracking-tighter leading-[1.1] mb-5">
+                <div className="flex flex-col text-center mb-10 xl:mb-6">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-2xl font-black text-white tracking-tighter leading-[1.1] mb-5 xl:mb-3">
                     {exp.role}
                   </h3>
-                  <div className="flex flex-col items-center justify-center gap-1.5">
-                    <span className="text-[12px] sm:text-[13px] text-slate-400">
+                  <div className="flex flex-col items-center justify-center gap-1.5 xl:gap-1">
+                    <span className="text-[12px] sm:text-[13px] xl:text-[11px] text-slate-400">
                       {exp.subtitle1}
                     </span>
-                    <span className={`text-[12px] sm:text-[13px] font-bold tracking-wide ${exp.cardStyles.dateColor} mt-1.5`}>
+                    <span className={`text-[12px] sm:text-[13px] xl:text-[12px] font-bold tracking-wide ${exp.cardStyles.dateColor} mt-1.5 xl:mt-0.5`}>
                       {exp.date}
                     </span>
-                    <span className="text-[14px] sm:text-[15px] font-medium text-slate-200 mt-1">
+                    <span className="text-[14px] sm:text-[15px] xl:text-[13px] font-medium text-slate-200 mt-1">
                       {exp.subtitle2}
                     </span>
                   </div>
                 </div>
 
                 {/* 2. The Connected Circles */}
-                <div className="relative w-full flex-grow flex items-center mb-6 xl:mb-4">
+                <div className="relative w-full flex-grow flex items-center mb-6 xl:mb-2">
                   
                   {/* Connecting Lines */}
-                  <div className="absolute top-[2rem] xl:top-[1.5rem] left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent hidden sm:block z-0" />
+                  {/* Adjusted top position strictly for desktop circle size */}
+                  <div className="absolute top-[2rem] xl:top-[1.375rem] left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent hidden sm:block z-0" />
                   <div className="absolute left-[2rem] top-[10%] bottom-[10%] w-px bg-gradient-to-b from-transparent via-white/10 to-transparent sm:hidden z-0" />
 
                   {/* Grid Layout for Circles */}
@@ -187,11 +190,11 @@ export default function ExperienceSection() {
                       >
                         {/* Circle */}
                         <div className="sm:mx-auto relative shrink-0">
-                          {/* Hover Glow */}
                           <div className={`absolute inset-0 ${step.bg} blur-md opacity-0 group-hover/circle:opacity-20 transition-opacity duration-500 rounded-full`} />
                           
-                          <div className={`w-16 h-16 xl:w-12 xl:h-12 rounded-full bg-[#050508] border-[1.5px] ${step.border} flex items-center justify-center relative z-10 shadow-lg group-hover/circle:scale-105 transition-transform duration-500`}>
-                            <span className={`text-lg xl:text-sm font-light tracking-widest ${step.text}`}>
+                          {/* Circle size optimized for desktop height reduction */}
+                          <div className={`w-16 h-16 xl:w-11 xl:h-11 rounded-full bg-[#050508] border-[1.5px] ${step.border} flex items-center justify-center relative z-10 shadow-lg group-hover/circle:scale-105 transition-transform duration-500`}>
+                            <span className={`text-lg xl:text-xs font-light tracking-widest ${step.text}`}>
                               {step.id}
                             </span>
                           </div>
@@ -202,11 +205,11 @@ export default function ExperienceSection() {
                           <h4 className="text-[13px] lg:text-[14px] xl:text-[12px] font-black text-white uppercase tracking-[0.05em] mb-1">
                             {step.title}
                           </h4>
-                          <span className={`text-[9px] lg:text-[10px] xl:text-[8px] font-bold uppercase tracking-widest ${step.text} mb-3 xl:mb-2 block`}>
+                          <span className={`text-[9px] lg:text-[10px] xl:text-[8px] font-bold uppercase tracking-widest ${step.text} mb-3 xl:mb-1.5 block`}>
                             {step.subtitle}
                           </span>
                           
-                          <div className="flex flex-col items-start sm:items-center text-[#888] space-y-1">
+                          <div className="flex flex-col items-start sm:items-center text-[#888] space-y-1 xl:space-y-0.5">
                             {step.details.map((detail, i) => (
                               <p key={i} className="text-[10px] lg:text-[11px] xl:text-[9.5px] leading-tight font-medium group-hover/circle:text-slate-300 transition-colors">
                                 {detail}
@@ -222,11 +225,12 @@ export default function ExperienceSection() {
               </div>
 
               {/* 3. BOTTOM FOOTER: Skills & Focus */}
-              <div className="relative z-10 border-t border-white/5 bg-white/[0.01] px-8 py-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mt-auto">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+              {/* Added a strict fixed height (xl:h-[76px]) on desktop to force identical boxes! */}
+              <div className="relative z-10 border-t border-white/5 bg-white/[0.01] w-full min-h-[90px] xl:min-h-0 xl:h-[76px] flex flex-wrap items-center justify-center px-8 py-6 xl:px-4 xl:py-0 gap-x-6 gap-y-3 xl:gap-x-4 xl:gap-y-1.5 mt-auto">
+                <span className="text-[10px] xl:text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">
                   Core Focus:
                 </span>
-                <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[10px] font-bold uppercase tracking-[0.1em] text-slate-300">
+                <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 xl:gap-x-4 xl:gap-y-1.5 text-[10px] xl:text-[9px] font-bold uppercase tracking-[0.1em] text-slate-300">
                   {exp.coreFocus.map((focusItem, index) => (
                     <span key={index} className="hover:text-teal-400 transition-colors cursor-default">
                       {focusItem}
