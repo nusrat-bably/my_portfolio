@@ -83,12 +83,14 @@ npm run type-check
 ## 📋 Website Sections
 
 ### 1. **Navigation Bar** (Fixed)
+
 - Sticky navigation with smooth scroll links
 - Logo with gradient text effect
 - "Get in Touch" CTA button
 - Responsive design (hamburger on mobile)
 
 ### 2. **Hero Section**
+
 - Eye-catching headline: "Nusrat Jahan Bably"
 - Subtitle: "Full-Stack Developer · AI & Research Engineer"
 - Hero message: "Building systems where intelligence meets usability"
@@ -97,6 +99,7 @@ npm run type-check
 - Animated background gradient
 
 ### 3. **About Section**
+
 - Philosophy statement
 - Engineering approach & values
 - 6 hobby categories with descriptions:
@@ -108,11 +111,13 @@ npm run type-check
   - 🐾 Time with Pets
 
 ### 4. **Experience Section**
+
 - Teaching Assistant & Grader role at United International University
 - Detailed responsibilities and achievements
 - Relevant skills tags
 
 ### 5. **Projects Section**
+
 - 3 featured projects in case-study format:
   - **BiblioTheca**: AI-powered gamified library system
   - **Landlytics**: Intelligent land analytics platform
@@ -120,6 +125,7 @@ npm run type-check
 - Each includes problem, approach, tech stack, highlights
 
 ### 6. **Research Section**
+
 - 3 ongoing/completed research initiatives:
   - **Multimodal Speech Reconstruction**: Bengali stroke patients
   - **ShunoBondhu**: Voice assistive system
@@ -127,6 +133,7 @@ npm run type-check
 - Status and key contributions
 
 ### 7. **Skills Section**
+
 - 5 skill categories:
   - Programming Languages
   - Frameworks & Tools
@@ -135,12 +142,14 @@ npm run type-check
   - Research
 
 ### 8. **Education Section**
+
 - B.Sc. Computer Science & Engineering (UIU)
 - CGPA: 3.90/4.00
 - HSC: 4.83, SSC: 5.00
 - Relevant coursework
 
 ### 9. **Achievements Section**
+
 - 6 major achievements with icons:
   - FYDP Champion
   - Chess Champion
@@ -150,6 +159,7 @@ npm run type-check
   - Teaching Excellence
 
 ### 10. **Footer**
+
 - About bio
 - Quick navigation links
 - Social media connections (GitHub, LinkedIn, Twitter, Email)
@@ -158,6 +168,7 @@ npm run type-check
 ## 🎨 Design System
 
 ### Color Palette
+
 - **Background**: `#0a0a0a` (Deep Black)
 - **Surface**: `#1a1a1a` (Dark Gray)
 - **Text**: `#e5e5e5` (Off-White)
@@ -167,6 +178,7 @@ npm run type-check
 - **Accent Dark**: `#4f46e5`
 
 ### Typography
+
 - **Font Family**: Inter / System fonts (for performance)
 - **H1**: 5rem – 7rem (responsive)
 - **H2**: 3rem – 5rem
@@ -174,11 +186,13 @@ npm run type-check
 - **Letter Spacing**: -0.02em on headings
 
 ### Spacing
+
 - Consistent 16px grid
 - Section padding: 20rem – 40rem (responsive)
 - Component gaps: 1rem – 3rem
 
 ### Components
+
 - **Glass Effect**: `backdrop-filter: blur(10px)` with semi-transparent borders
 - **Buttons**: Primary (indigo bg) and Secondary (outlined)
 - **Cards**: Glass effect with hover animations
@@ -187,6 +201,7 @@ npm run type-check
 ## ✨ Interactive Features
 
 ### Animations
+
 - **Fade In Up**: Sections fade in as they scroll into view
 - **Staggered Children**: Child elements animate with delays
 - **Smooth Scroll**: Anchor links scroll smoothly
@@ -195,6 +210,7 @@ npm run type-check
 - **Scroll Indicators**: Arrow animates on hero
 
 ### Performance
+
 - Code splitting (automatic with Next.js)
 - Image optimization
 - CSS-in-JS (via Tailwind)
@@ -203,7 +219,9 @@ npm run type-check
 ## 🔧 Customization Guide
 
 ### Update Personal Info
+
 Edit the content in each section component:
+
 ```typescript
 // components/sections/HeroSection.tsx
 <h1>Your Name</h1>
@@ -211,14 +229,18 @@ Edit the content in each section component:
 ```
 
 ### Change Color Scheme
+
 Update `tailwind.config.js`:
+
 ```javascript
 accent: '#your-color',
 'accent-light': '#lighter-variant',
 ```
 
 ### Add/Remove Sections
+
 Edit `app/page.tsx` to include/exclude sections:
+
 ```typescript
 <HeroSection />
 <AboutSection />
@@ -226,10 +248,13 @@ Edit `app/page.tsx` to include/exclude sections:
 ```
 
 ### Update Projects
+
 Modify the `projects` array in `ProjectsSection.tsx`
 
 ### Social Links
+
 Update footer links in `components/Footer.tsx`:
+
 ```typescript
 { label: 'GitHub', href: 'your-github-url', icon: 'GH' }
 ```
@@ -247,6 +272,7 @@ All sections adapt gracefully with Tailwind's responsive prefixes (`md:`, `lg:`)
 ### Deploy to Vercel
 
 1. Push to GitHub:
+
 ```bash
 git add .
 git commit -m "Initial portfolio"
@@ -254,16 +280,18 @@ git push origin main
 ```
 
 2. Import project to [Vercel](https://vercel.com):
+
    - Connect your GitHub account
    - Select this repository
    - Click Deploy
-
 3. Domain setup (optional):
+
    - Add custom domain in Vercel settings
 
 ### Deploy Elsewhere
 
 Build the optimized production bundle:
+
 ```bash
 npm run build
 npm run start
@@ -274,6 +302,7 @@ Then deploy the `.next` folder to your hosting provider.
 ## 🔍 SEO & Meta Tags
 
 Already configured with:
+
 - Open Graph tags for social sharing
 - Proper meta descriptions
 - Keyword optimization
@@ -284,6 +313,7 @@ Customizable in `app/layout.tsx`
 ## 📊 Bundle Analysis
 
 Production bundle size:
+
 - HTML: ~45 KB
 - JavaScript: ~148 KB (including React, Next.js, Framer Motion)
 - Total: Well under 300 KB (highly optimized)
@@ -291,16 +321,19 @@ Production bundle size:
 ## 🐛 Troubleshooting
 
 **Port 3000 already in use?**
+
 ```bash
 npm run dev -- -p 3001
 ```
 
 **TypeScript errors?**
+
 ```bash
 npm run type-check
 ```
 
 **Build fails?**
+
 ```bash
 rm -rf .next
 npm run build
@@ -312,8 +345,8 @@ Built with intention by Nusrat Jahan Bably. Free to use and customize.
 
 ---
 
-**Built with**: Next.js, TypeScript, Tailwind CSS, Framer Motion  
-**Designed as**: A calm, deeply intelligent engineer's personal identity system  
+**Built with**: Next.js, TypeScript, Tailwind CSS, Framer Motion
+**Designed as**: A calm, deeply intelligent engineer's personal identity system
 **Ready for**: Immediate deployment on Vercel
 
 ✨ **"Building systems where intelligence meets usability."**
