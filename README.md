@@ -1,355 +1,189 @@
-# Nusrat Jahan Bably — Research Engineering Portfolio
+# Nusrat Jahan Bably Portfolio
 
-A premium, production-ready personal portfolio website built with Next.js, TypeScript, Tailwind CSS, and Framer Motion. Designed as a research lab meets Apple-level product launch page.
+Research-driven portfolio for Nusrat Jahan Bably, presenting software engineering, AI research, teaching experience, academic work, projects, and ways for visitors to connect.
 
-## 🎯 Philosophy
+This document describes the implementation currently in this repository as of September 2026. It is the source of truth for the portfolio application; older planning notes may describe an earlier version of the site.
 
-This portfolio is not just a website—it's a **research-engineering identity system** that communicates depth, intelligence, and intentionality within 6 seconds. It balances minimal design with meaningful content, quiet confidence with technical credibility.
+## What The Site Contains
 
-### Design Principles
+The main route (`/`) is a long-form portfolio experience with:
 
-- **Minimal but Expressive**: No noise, only signal
-- **Calm & Intelligent**: Like a precision engineer designed this, not a designer trying to impress
-- **Recruiter-Optimized Yet Artistic**: Showcases both engineering strength and research intelligence
-- **Dark-Mode First**: Designed around sophisticated dark aesthetics with electric blue accents
-- **Intentional Motion**: Micro-interactions that feel physical, never frivolous
+- A hero section with rotating focus messages, academic and professional highlights, a view counter, and a visual background.
+- About content covering philosophy, working approach, values, and interests outside technology.
+- Professional experience for research and teaching-assistant roles.
+- Four featured projects with links, screenshots, technology labels, and a dedicated fuel-monitoring case study.
+- A research archive for Bengali speech reconstruction, ShunoBondhu, and SmartBoardVision. Research posters open in an image viewer where available.
+- A skills section covering software engineering, AI and data, design, programming languages, frameworks, databases, scientific tooling, and productivity tools.
+- Academic background, including degree, CGPA, earlier academic results, and graduation date.
+- Awards and achievements with image galleries and expandable proof images.
+- Academic references with faculty details, email links, and downloadable letters of recommendation.
+- A guestbook where visitors can leave an optional name and message. Submitted messages require approval before they are displayed.
+- A kudos button that lets a visitor like or unlike the portfolio.
+- A floating contact companion with social, email, phone, WhatsApp, and AI-assistant entry points.
+- A contextual roaming developer-cat animation and other motion-based visual details.
+- Footer navigation, social links, CV download, and current-year copyright text.
 
-## 🛠️ Tech Stack
+The `/fuel` route is a standalone case study for the Fuel Theft Detection & Consumption Monitoring System. It documents the problem, prototype and circuit design, hardware components, test evidence, and a demonstration video.
 
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript 5.3
-- **Styling**: Tailwind CSS 3.4
-- **Animations**: Framer Motion 11
-- **Deployment**: Vercel (ready to deploy)
+## Technology Stack
 
-## 📁 Project Structure
+### Application
 
+| Area | Technology | Evidence |
+| --- | --- | --- |
+| Framework | Next.js `^16.3.1`, App Router | `app/`, `next.config.js` |
+| UI runtime | React `^19.0.0`, React DOM `^19.0.0` | `package.json` |
+| Language | TypeScript `^5.3.0` | `.ts` and `.tsx` files, `tsconfig.json` |
+| Styling | Tailwind CSS `^3.4.0` | `tailwind.config.js`, component class names |
+| CSS processing | PostCSS `^8.4.0`, Autoprefixer `^10.4.0` | `postcss.config.js` |
+| Animation | Framer Motion `^11.0.0` | section and interaction components |
+| Images and media | Next Image plus native `img` and `video` elements | `app/`, `components/`, `public/` |
+| Hosting target | Vercel-compatible Next.js deployment | `DEPLOYMENT.md`, footer copy |
+
+### Server-side integrations
+
+| Capability | Technology | Implementation |
+| --- | --- | --- |
+| Portfolio assistant | Google Gemini via `@google/genai` | `app/api/chat/route.ts` |
+| Guestbook storage and moderation | Notion API via `@notionhq/client` | `actions/guestbook.ts` |
+| Views and kudos counters | Upstash Redis via `@upstash/redis` | `app/api/views/route.ts`, `app/api/likes/route.ts` |
+| Server mutations | Next.js Server Actions | `actions/guestbook.ts` |
+| API responses | Next.js Route Handlers and `NextResponse` | `app/api/**/route.ts` |
+
+### Configuration and development tools
+
+- Node.js is required by Next.js, but the repository does not declare an `engines` version. The Node 20 type package is installed for development typings; it should not be treated as a formally enforced runtime version.
+- TypeScript is configured in strict mode with the `@/*` path alias mapped to the repository root.
+- `reactStrictMode` is enabled in `next.config.js`.
+- The application is dark-mode-first and uses CSS variables plus Tailwind utilities. The implemented visual palette is charcoal/black with teal, emerald, slate, lavender, amber, and occasional magenta accents.
+- No external font package is installed. The global stylesheet uses a system sans-serif fallback stack, while selected sections use Tailwind font utilities.
+
+## Routes And Data Flow
+
+```text
+/                    App Router homepage
+  -> server fetches approved guestbook entries from Notion
+  -> renders portfolio sections and client interactions
+
+/fuel                Embedded IoT project case study
+
+/api/chat            POST: sends chat history to Gemini
+/api/views           POST: increments portfolio-views in Upstash Redis
+/api/likes           GET: reads count, POST: increments, DELETE: decrements
 ```
-Portfolio/
-├── app/
-│   ├── layout.tsx           # Root layout with metadata
-│   ├── page.tsx             # Home page with all sections
-│   └── globals.css          # Global styles & design system
-├── components/
-│   ├── nav/
-│   │   └── NavigationBar.tsx      # Sticky navigation
-│   ├── sections/
-│   │   ├── HeroSection.tsx        # Landing section with CTAs
-│   │   ├── AboutSection.tsx       # Philosophy & values
-│   │   ├── ExperienceSection.tsx  # Professional experience
-│   │   ├── ProjectsSection.tsx    # Featured projects
-│   │   ├── ResearchSection.tsx    # Ongoing research
-│   │   ├── SkillsSection.tsx      # Technical capabilities
-│   │   ├── EducationSection.tsx   # Academic background
-│   │   └── AchievementsSection.tsx # Awards & recognition
-│   └── Footer.tsx           # Footer with links & social
-├── public/                  # Static assets
-├── tailwind.config.js       # Tailwind configuration
-├── tsconfig.json            # TypeScript configuration
-└── package.json             # Dependencies
+
+Guestbook submissions use a Server Action. New entries are written with `Approved: false`, so they do not appear publicly until approved in Notion. The homepage reads only approved entries and revalidates `/` after a submission.
+
+Views and kudos are persisted in Redis. The counters are always updated when their endpoints are called, but public display is controlled independently through environment flags. The browser also stores a local `bably-portfolio-liked` marker to prevent a visitor from accidentally treating a refresh as a new local like.
+
+The chatbot is opened from the contact companion through a browser custom event. It posts the current conversation to `/api/chat`; the server route supplies the portfolio-specific system instruction and calls Gemini. The Gemini API key remains server-side.
+
+## Environment Variables
+
+Create a local `.env.local` file for integrations that you want to enable. Do not commit it.
+
+```env
+# Gemini portfolio assistant
+GEMINI_API_KEY=
+
+# Notion guestbook
+NOTION_API_KEY=
+NOTION_DATABASE_ID=
+
+# Upstash Redis for views and likes
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+
+# Optional compatibility names used by the likes route
+KV_REST_API_URL=
+KV_REST_API_TOKEN=
+
+# Public visibility switches
+SHOW_VIEW_COUNTER=false
+SHOW_LIKE_COUNT=false
 ```
 
-## 🚀 Getting Started
+The guestbook silently returns an empty list when Notion variables are absent. Chat requires `GEMINI_API_KEY`. Redis-backed features require the relevant Upstash variables; the likes route also accepts the Vercel KV-compatible aliases shown above. Set the display switches to `true` only when the corresponding count should be rendered publicly.
 
-### Installation
+## Local Development
 
 ```bash
 npm install
-```
-
-### Development
-
-Start the local development server:
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000). The `/fuel` case study is available at [http://localhost:3000/fuel](http://localhost:3000/fuel).
 
-### Build for Production
-
-```bash
-npm run build
-npm run start
-```
-
-### Type Checking
+Available scripts:
 
 ```bash
-npm run type-check
+npm run dev         # Start the development server
+npm run build       # Create a production build
+npm run start       # Serve the production build
+npm run type-check  # Run TypeScript without emitting files
+npm run lint        # Invoke the configured Next lint script
 ```
 
-## 📋 Website Sections
+The current package script uses `next lint`. Newer Next.js releases may no longer provide that command, so treat linting as a script that should be verified during dependency upgrades rather than as a guaranteed passing check.
 
-### 1. **Navigation Bar** (Fixed)
+## Repository Layout
 
-- Sticky navigation with smooth scroll links
-- Logo with gradient text effect
-- "Get in Touch" CTA button
-- Responsive design (hamburger on mobile)
-
-### 2. **Hero Section**
-
-- Eye-catching headline: "Nusrat Jahan Bably"
-- Subtitle: "Full-Stack Developer · AI & Research Engineer"
-- Hero message: "Building systems where intelligence meets usability"
-- Three CTAs: View Projects, View Research, Contact
-- Statistics: Projects, Research Papers, GPA
-- Animated background gradient
-
-### 3. **About Section**
-
-- Philosophy statement
-- Engineering approach & values
-- 6 hobby categories with descriptions:
-  - 🌿 Gardening
-  - 📸 Photography
-  - ✏️ Sketching & Journaling
-  - 📚 Reading
-  - ♟️ Chess
-  - 🐾 Time with Pets
-
-### 4. **Experience Section**
-
-- Teaching Assistant & Grader role at United International University
-- Detailed responsibilities and achievements
-- Relevant skills tags
-
-### 5. **Projects Section**
-
-- 3 featured projects in case-study format:
-  - **BiblioTheca**: AI-powered gamified library system
-  - **Landlytics**: Intelligent land analytics platform
-  - **Medica DB**: Medical workflow management system
-- Each includes problem, approach, tech stack, highlights
-
-### 6. **Research Section**
-
-- 3 ongoing/completed research initiatives:
-  - **Multimodal Speech Reconstruction**: Bengali stroke patients
-  - **ShunoBondhu**: Voice assistive system
-  - **SmartBoardVision**: Classroom enhancement system
-- Status and key contributions
-
-### 7. **Skills Section**
-
-- 5 skill categories:
-  - Programming Languages
-  - Frameworks & Tools
-  - AI & Data Science
-  - Core Systems
-  - Research
-
-### 8. **Education Section**
-
-- B.Sc. Computer Science & Engineering (UIU)
-- CGPA: 3.90/4.00
-- HSC: 4.83, SSC: 5.00
-- Relevant coursework
-
-### 9. **Achievements Section**
-
-- 6 major achievements with icons:
-  - FYDP Champion
-  - Chess Champion
-  - Academic Scholarships
-  - National Debate Champion
-  - Programming Contest Participant
-  - Teaching Excellence
-
-### 10. **Footer**
-
-- About bio
-- Quick navigation links
-- Social media connections (GitHub, LinkedIn, Twitter, Email)
-- Copyright and deployment info
-
-## 🎨 Design System
-
-### Color Palette
-
-- **Background**: `#0a0a0a` (Deep Black)
-- **Surface**: `#1a1a1a` (Dark Gray)
-- **Text**: `#e5e5e5` (Off-White)
-- **Text Secondary**: `#a0a0a0` (Light Gray)
-- **Accent**: `#6366f1` (Electric Indigo)
-- **Accent Light**: `#818cf8`
-- **Accent Dark**: `#4f46e5`
-
-### Typography
-
-- **Font Family**: Inter / System fonts (for performance)
-- **H1**: 5rem – 7rem (responsive)
-- **H2**: 3rem – 5rem
-- **Body**: 1rem – 1.125rem with 1.6 line height
-- **Letter Spacing**: -0.02em on headings
-
-### Spacing
-
-- Consistent 16px grid
-- Section padding: 20rem – 40rem (responsive)
-- Component gaps: 1rem – 3rem
-
-### Components
-
-- **Glass Effect**: `backdrop-filter: blur(10px)` with semi-transparent borders
-- **Buttons**: Primary (indigo bg) and Secondary (outlined)
-- **Cards**: Glass effect with hover animations
-- **Inputs**: Styled with focus states
-
-## ✨ Interactive Features
-
-### Animations
-
-- **Fade In Up**: Sections fade in as they scroll into view
-- **Staggered Children**: Child elements animate with delays
-- **Smooth Scroll**: Anchor links scroll smoothly
-- **Hover States**: Subtle depth and color changes
-- **Micro-interactions**: Button hovers, card elevations
-- **Scroll Indicators**: Arrow animates on hero
-
-### Performance
-
-- Code splitting (automatic with Next.js)
-- Image optimization
-- CSS-in-JS (via Tailwind)
-- Lazy loaded components
-
-## 🔧 Customization Guide
-
-### Update Personal Info
-
-Edit the content in each section component:
-
-```typescript
-// components/sections/HeroSection.tsx
-<h1>Your Name</h1>
-<p>Your tagline</p>
+```text
+app/
+  layout.tsx                 Root layout, metadata, navigation, global overlays
+  page.tsx                   Homepage composition and server-side guestbook read
+  globals.css                Tailwind layers, CSS variables, animations, utilities
+  fuel/page.tsx              Fuel-monitoring case study
+  api/chat/route.ts          Gemini assistant endpoint
+  api/likes/route.ts         Redis-backed kudos endpoint
+  api/views/route.ts         Redis-backed view endpoint
+actions/guestbook.ts         Notion Server Actions and guestbook types
+components/
+  nav/                       Navigation and inline visual companions
+  sections/                  Portfolio sections and interactive visual features
+  PortfolioChatbot.tsx      Chat UI
+  KudosButton.tsx            Like/unlike UI
+  ViewCounter.tsx            Optional public view counter
+  Footer.tsx                 Site footer and external links
+lib/constants.ts             Shared constants, where applicable
+public/                      CV, project images, posters, photos, tools, and video
 ```
 
-### Change Color Scheme
+The repository also contains `*orig.tsx` files that represent older component or route versions. They are not imported by the active App Router entry points and should be treated as historical references, not live application code.
 
-Update `tailwind.config.js`:
+## Content And Project Technology
 
-```javascript
-accent: '#your-color',
-'accent-light': '#lighter-variant',
-```
+The technologies shown in the project cards describe the showcased work, not dependencies of this portfolio shell:
 
-### Add/Remove Sections
+- **BiblioTheca:** React, Spring Boot, Java, H2 Database, REST API.
+- **Landlytics:** Laravel, PHP, MySQL, Tailwind CSS.
+- **Medica DB:** React, Node.js, Socket.io, SQL.
+- **Fuel Theft & Consumption Monitoring:** Arduino, C/C++, IoT sensors, Bluetooth.
 
-Edit `app/page.tsx` to include/exclude sections:
+The skills display additionally references Python, TensorFlow, PyTorch, Pandas, NumPy, Matplotlib, Git/GitHub, LaTeX, Canva, Jira, and Microsoft Office. These are portfolio content and assets; they are not all installed npm dependencies in this repository.
 
-```typescript
-<HeroSection />
-<AboutSection />
-// Remove sections you don't need
-```
+## Deployment Notes
 
-### Update Projects
+The application can be deployed as a standard Next.js Node application or through Vercel:
 
-Modify the `projects` array in `ProjectsSection.tsx`
+1. Push the repository to a Git provider.
+2. Import it into Vercel and keep the framework as Next.js.
+3. Add the required environment variables in the deployment project settings.
+4. Build with `npm run build` and serve with `npm run start` when self-hosting.
 
-### Social Links
+Do not use a static export if you need the Gemini route, Notion guestbook, or Redis counters. Those features require server execution. See [DEPLOYMENT.md](DEPLOYMENT.md) for the existing hosting notes and operational checklist.
 
-Update footer links in `components/Footer.tsx`:
+## Verification
 
-```typescript
-{ label: 'GitHub', href: 'your-github-url', icon: 'GH' }
-```
-
-## 📱 Responsive Design
-
-- **Mobile**: 320px+ (stacked layout)
-- **Tablet**: 768px+ (2-column grids)
-- **Desktop**: 1024px+ (3-column grids, full spacing)
-
-All sections adapt gracefully with Tailwind's responsive prefixes (`md:`, `lg:`).
-
-## 🚢 Deployment
-
-### Deploy to Vercel
-
-1. Push to GitHub:
-
-```bash
-git add .
-git commit -m "Initial portfolio"
-git push origin main
-```
-
-2. Import project to [Vercel](https://vercel.com):
-
-   - Connect your GitHub account
-   - Select this repository
-   - Click Deploy
-3. Domain setup (optional):
-
-   - Add custom domain in Vercel settings
-
-### Deploy Elsewhere
-
-Build the optimized production bundle:
-
-```bash
-npm run build
-npm run start
-```
-
-Then deploy the `.next` folder to your hosting provider.
-
-## 🔍 SEO & Meta Tags
-
-Already configured with:
-
-- Open Graph tags for social sharing
-- Proper meta descriptions
-- Keyword optimization
-- Structured metadata
-
-Customizable in `app/layout.tsx`
-
-## 📊 Bundle Analysis
-
-Production bundle size:
-
-- HTML: ~45 KB
-- JavaScript: ~148 KB (including React, Next.js, Framer Motion)
-- Total: Well under 300 KB (highly optimized)
-
-## 🐛 Troubleshooting
-
-**Port 3000 already in use?**
-
-```bash
-npm run dev -- -p 3001
-```
-
-**TypeScript errors?**
+Before deploying content or integration changes:
 
 ```bash
 npm run type-check
-```
-
-**Build fails?**
-
-```bash
-rm -rf .next
 npm run build
 ```
 
-## 📝 License
+Also verify the homepage, `/fuel`, guestbook submission, AI assistant, CV links, external project links, and mobile navigation in a browser. The integration features cannot be fully verified without valid Gemini, Notion, and Upstash credentials.
 
-Built with intention by Nusrat Jahan Bably. Free to use and customize.
+## Current Documentation Caveat
 
----
-
-**Built with**: Next.js, TypeScript, Tailwind CSS, Framer Motion
-**Designed as**: A calm, deeply intelligent engineer's personal identity system
-**Ready for**: Immediate deployment on Vercel
-
-✨ **"Building systems where intelligence meets usability."**
-
-© 2026 Nusrat Jahan Bably. All rights reserved.
-This repository is publicly available for viewing and educational/reference purposes. Reuse, redistribution, or reproduction of the design or source code without permission is not permitted.
+Some older files in the repository still contain earlier claims such as Next.js 15, electric indigo as the primary accent, three featured projects, six achievements, no database, and no third-party services. Those statements no longer describe the active implementation. This README intentionally documents the current source code and package manifest instead.
