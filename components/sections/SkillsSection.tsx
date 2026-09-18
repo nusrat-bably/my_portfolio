@@ -10,29 +10,30 @@ type Tool = {
 
 const skills = {
   software: [
-    'Development',
-    'OOP',
-    'DSA',
-    'Software Engineering',
-    'DBMS',
-    'RDBMS',
-    'Full-Stack Development',
+    'Full-Stack Engineering',
+    'Next.js App Router',
+    'React & TypeScript',
+    'REST API Design',
+    'Server Actions',
+    'DBMS & RDBMS',
+    'OOP & DSA',
   ],
   ai: [
-    'Machine Learning',
-    'Deep Learning',
-    'NLP',
+    'Machine & Deep Learning',
+    'Natural Language Processing',
     'Computer Vision',
+    'Generative AI & Gemini',
     'Data Analysis',
-    'Research',
+    'Applied Research',
   ],
   design: [
+    'Tailwind CSS',
+    'Framer Motion',
     'UI/UX Design',
     'Human-Centered Design',
-    'Responsive Design',
-    'HCI',
+    'Responsive & Accessible UI',
+    'HCI & Usability',
     'Gamification',
-    'Problem Solving',
   ],
 };
 
@@ -43,7 +44,7 @@ const tools: Tool[] = [
   { name: 'Python', image: '/Tools/python.png' },
   { name: 'Java', image: '/Tools/java.png' },
   { name: 'Spring Boot', image: '/Tools/springboot.png' },
-  { name: 'HTML / CSS / JS', image: '/Tools/htmlcssjavascript.png' },
+  { name: 'HTML / CSS / JavaScript', image: '/Tools/htmlcssjavascript.png' },
   { name: 'PHP', image: '/Tools/php.png' },
 
   // ROW 2: Backend, DB & Build Tools
@@ -60,7 +61,7 @@ const tools: Tool[] = [
   { name: 'NumPy', image: '/Tools/numpy.png' },
   { name: 'Matplotlib', image: '/Tools/matploit.png' },
 
-  // ROW 4: Version Control, Writing, Design & Project Management
+  // ROW 4: Version Control, Documentation, Design & Project Management
   { name: 'Git / GitHub', image: '/Tools/git:github.png' },
   { name: 'LaTeX', image: '/Tools/latex.png' },
   { name: 'Canva', image: '/Tools/canva.png' },
